@@ -1,0 +1,507 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Scholar Atlas 2027</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: a graduation-stole band of academic hood colours tops a GPA matcher; faculties are hood-colour tiles;
+   results are a sortable register where each scholarship shows its required GPA against yours. */
+:root{
+  --bg:#f4f5f8; --surface:#ffffff; --raise:#eef0f5; --ink:#14161f; --muted:#5b6170; --line:#d9dce5;
+  --accent:#1f3c9a; --accent-ink:#ffffff; --accent-soft:#e2e8f8; --gold:#b98a1c; --gold-soft:#f6ecd2;
+  --good:#1c7a46; --good-soft:#d9f0e2; --near:#9a6400; --near-soft:#f8ecd0; --bad:#b0392b; --bad-soft:#f8e0dc; --closed:#7a808c; --closed-soft:#e8eaef;
+  --display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+  /* academic hood colours (US Intercollegiate Code) */
+  --h-ENG:#f07d1a; --h-CS:#56687e; --h-SCI:#e8b007; --h-MED:#2d8a3e; --h-HLT:#ef8a77; --h-AGR:#e3c55b; --h-ENV:#8e4b2c;
+  --h-BUS:#9d8a5b; --h-LAW:#6b2d91; --h-SOC:#0f7e8e; --h-DEV:#c9c935; --h-EDU:#86c0e6; --h-HUM:#ffffff; --h-ART:#6e4429; --h-JRN:#a51b30;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0e1016; --surface:#161922; --raise:#1c202b; --ink:#e6e8ef; --muted:#9aa1b1; --line:#2a2f3c;
+  --accent:#8ea8ff; --accent-ink:#0b1230; --accent-soft:#1d2645; --gold:#e3b54a; --gold-soft:#33290f;
+  --good:#6fd39b; --good-soft:#163222; --near:#e8bb55; --near-soft:#33290f; --bad:#f08f80; --bad-soft:#3a1d19; --closed:#8b92a0; --closed-soft:#232733; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0e1016; --surface:#161922; --raise:#1c202b; --ink:#e6e8ef; --muted:#9aa1b1; --line:#2a2f3c;
+  --accent:#8ea8ff; --accent-ink:#0b1230; --accent-soft:#1d2645; --gold:#e3b54a; --gold-soft:#33290f;
+  --good:#6fd39b; --good-soft:#163222; --near:#e8bb55; --near-soft:#33290f; --bad:#f08f80; --bad-soft:#3a1d19; --closed:#8b92a0; --closed-soft:#232733; color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15.5px;line-height:1.55}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--surface)}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.stole{display:flex;height:10px}
+.stole i{flex:1}
+nav.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:1px solid var(--line)}
+nav.top .wrap{display:flex;gap:20px;align-items:center;padding-block:10px;overflow-x:auto;scrollbar-width:none}
+nav.top .wrap::-webkit-scrollbar{display:none}
+.brand{font-family:var(--display);font-weight:800;font-size:20px;color:var(--ink);text-decoration:none;white-space:nowrap}
+.brand span{color:var(--gold)}
+nav.top a.l{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;white-space:nowrap}
+nav.top a.l:hover{color:var(--ink)}
+
+/* hero */
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:44px;padding-block:48px 56px;align-items:center}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:600}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(42px,6.4vw,78px);line-height:.95;letter-spacing:-.02em;margin:12px 0 18px;text-wrap:balance}
+h1 em{font-style:normal;color:var(--accent)}
+.lead{font-size:17.5px;color:var(--muted);max-width:50ch;margin:0 0 22px}
+.facts{display:flex;gap:26px;flex-wrap:wrap}
+.facts div b{display:block;font-family:var(--display);font-weight:800;font-size:34px;line-height:1;font-variant-numeric:tabular-nums}
+.facts div span{font-size:13px;color:var(--muted)}
+.matcher{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:0 24px 60px -36px rgba(20,22,31,.45);min-width:0}
+.matcher h2{font-family:var(--display);font-weight:800;font-size:24px;margin:0 0 4px}
+.matcher p.s{margin:0 0 16px;color:var(--muted);font-size:14px}
+.mgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.fld{display:flex;flex-direction:column;gap:5px;min-width:0}
+.fld label{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.07em}
+input[type=number],input[type=search],select{font:inherit;font-size:15px;padding:10px 11px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);width:100%;min-width:0}
+.gparow{display:flex;gap:8px}
+.gparow input{flex:1 1 0}.gparow select{flex:1.3 1 0}
+.conv{font-family:var(--mono);font-size:12.5px;color:var(--muted);margin-top:2px}
+.conv b{color:var(--accent)}
+.result{margin-top:16px;border-top:1px solid var(--line);padding-top:14px;display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.result .big{font-family:var(--display);font-weight:800;font-size:44px;line-height:1;color:var(--good);font-variant-numeric:tabular-nums}
+.result .txt{font-size:14px;color:var(--muted);flex:1 1 180px}
+.result .txt b{color:var(--ink)}
+.btn{display:inline-flex;gap:8px;align-items:center;font:inherit;font-weight:600;font-size:15px;padding:11px 18px;border-radius:8px;border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);cursor:pointer;text-decoration:none}
+.btn.ghost{background:transparent;color:var(--accent)}
+
+/* sections */
+section{padding-block:56px 6px}
+.sh{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;margin-bottom:20px}
+.sh h2{font-family:var(--display);font-weight:800;font-size:clamp(30px,4.4vw,46px);line-height:1;margin:6px 0 0;letter-spacing:-.015em;text-wrap:balance}
+.sh p{margin:0;color:var(--muted);max-width:54ch}
+
+/* faculties */
+.facs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.fac{font:inherit;text-align:left;cursor:pointer;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:10px;min-width:0;transition:transform .15s,border-color .15s}
+.fac:hover{transform:translateY(-2px);border-color:var(--ink)}
+.fac[aria-pressed="true"]{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent)}
+.hood{width:34px;height:22px;clip-path:polygon(0 0,100% 0,50% 100%);border:0}
+.fac .top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.fac .n{font-family:var(--display);font-weight:800;font-size:26px;line-height:1;font-variant-numeric:tabular-nums}
+.fac h3{margin:0;font-size:14.5px;line-height:1.3}
+.fac small{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.hoodnote{font-size:13px;color:var(--muted);margin-top:12px}
+
+/* closing soon */
+.soon{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.sc{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;min-width:0;display:flex;flex-direction:column;gap:8px;cursor:pointer}
+.sc:hover{border-color:var(--ink)}
+.days{font-family:var(--mono);font-weight:600;font-size:12.5px;padding:2px 8px;border-radius:4px;align-self:flex-start}
+.d-urgent{background:var(--bad-soft);color:var(--bad)}.d-soon{background:var(--near-soft);color:var(--near)}.d-later{background:var(--accent-soft);color:var(--accent)}.d-closed{background:var(--closed-soft);color:var(--closed)}
+.sc h3{margin:0;font-size:14.5px;line-height:1.35}
+.sc span.c{font-size:12.5px;color:var(--muted)}
+
+/* register */
+.reg{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:clip}
+.filters{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:10px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 45px);background:var(--surface);z-index:10}
+.f1{display:grid;grid-template-columns:2fr repeat(4,minmax(0,1fr));gap:8px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.chips .lab{font-size:12px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-right:4px}
+.chip{font:inherit;font-size:13px;padding:5px 11px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer;display:inline-flex;gap:6px;align-items:center}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.chip .sw{width:10px;height:10px;border-radius:2px;border:1px solid rgba(0,0,0,.2)}
+.toggles{display:flex;gap:16px;flex-wrap:wrap;font-size:13.5px;color:var(--muted)}
+.toggles label{display:flex;gap:6px;align-items:center;cursor:pointer}
+.bar2{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 16px;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:13px;color:var(--muted)}
+.bar2 strong{color:var(--ink)}
+#list{display:flex;flex-direction:column}
+details.s{border-bottom:1px solid var(--line);min-width:0}
+details.s[open]{background:var(--raise)}
+summary{list-style:none;cursor:pointer;padding:14px 16px;display:grid;grid-template-columns:minmax(0,1fr) 170px 150px;gap:16px;align-items:center}
+summary::-webkit-details-marker{display:none}
+.t{min-width:0}
+.t h3{margin:0;font-size:15.5px;font-weight:600;line-height:1.35}
+.meta{display:flex;flex-wrap:wrap;gap:4px 10px;margin-top:5px;font-size:12.5px;color:var(--muted);align-items:center}
+.pill{font-size:11.5px;font-weight:600;padding:1px 7px;border-radius:4px;background:var(--raise);color:var(--ink);border:1px solid var(--line)}
+.pill.full{background:var(--good-soft);color:var(--good);border-color:transparent}
+.pill.part{background:var(--gold-soft);color:var(--gold);border-color:transparent}
+.pill.who{background:var(--accent-soft);color:var(--accent);border-color:transparent}
+.dots{display:inline-flex;gap:3px;align-items:center}
+.dots i{width:9px;height:9px;border-radius:2px;border:1px solid rgba(0,0,0,.18)}
+.gauge{min-width:0}
+.gauge .lbl{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-bottom:4px}
+.gauge .lbl b{color:var(--ink)}
+.track{position:relative;height:8px;border-radius:4px;background:var(--raise);border:1px solid var(--line)}
+.track .req{position:absolute;top:-1px;bottom:-1px;left:0;border-radius:4px 0 0 4px;background:color-mix(in srgb,var(--muted) 35%,transparent)}
+.track .me{position:absolute;top:-5px;width:3px;height:16px;border-radius:2px;background:var(--accent);transform:translateX(-1px)}
+.match{font-size:11.5px;font-weight:600;margin-top:5px}
+.m-ok{color:var(--good)}.m-near{color:var(--near)}.m-no{color:var(--bad)}
+.dl{text-align:right;min-width:0}
+.dl .date{font-family:var(--mono);font-size:12.5px;color:var(--muted);margin-top:4px}
+.body{padding:2px 16px 18px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 24px;margin:0}
+.f{min-width:0}.f.w2{grid-column:span 2}.f.w3{grid-column:1/-1}
+.f dt{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:700;margin-bottom:2px}
+.f dd{margin:0;font-size:14px;overflow-wrap:anywhere}
+.f.tip dd{background:var(--accent-soft);border-radius:8px;padding:10px 12px}
+.star{font:inherit;font-size:13px;background:none;border:1px solid var(--line);border-radius:6px;padding:4px 10px;color:var(--muted);cursor:pointer}
+.star[aria-pressed="true"]{background:var(--gold-soft);color:var(--gold);border-color:var(--gold)}
+.loadmore{display:flex;justify-content:center;padding:16px}
+.empty{padding:30px 16px;text-align:center;color:var(--muted)}
+
+/* timeline */
+.tl{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.step{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;min-width:0;position:relative}
+.step.now{border-color:var(--gold);box-shadow:0 0 0 2px var(--gold)}
+.step.past{opacity:.55}
+.step .w{font-family:var(--mono);font-size:12.5px;color:var(--accent);font-weight:600}
+.step h3{font-family:var(--display);font-weight:800;font-size:20px;margin:4px 0 6px}
+.step p{margin:0;font-size:14px;color:var(--muted)}
+.here{position:absolute;top:-10px;right:12px;font-family:var(--mono);font-size:11px;font-weight:600;background:var(--gold);color:#1d1400;padding:2px 8px;border-radius:4px}
+
+/* gpa guide */
+.guide{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:22px;align-items:start}
+.tblwrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+table.conv{border-collapse:collapse;width:100%;font-size:14px;font-variant-numeric:tabular-nums}
+table.conv th,table.conv td{padding:9px 12px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
+table.conv th{font-size:11.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+table.conv tr:last-child td{border-bottom:0}
+.bands{display:flex;flex-direction:column;gap:10px}
+.band{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.band b{font-family:var(--display);font-size:19px}
+.band p{margin:4px 0 0;font-size:14px;color:var(--muted)}
+
+/* tips */
+.tips{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.tip{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;min-width:0}
+.tip h3{margin:0 0 6px;font-family:var(--display);font-weight:800;font-size:19px}
+.tip p{margin:0;font-size:14.5px}
+
+footer{margin-top:64px;border-top:1px solid var(--line);background:var(--surface)}
+footer .wrap{padding-block:26px 40px;display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:20px;font-size:13.5px;color:var(--muted)}
+footer b{color:var(--ink)}
+
+@media (max-width:1000px){
+  .hero .wrap{grid-template-columns:1fr;gap:30px}
+  .facs{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .soon,.tl{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .f1{grid-template-columns:repeat(2,minmax(0,1fr))}.f1 #q{grid-column:1/-1}
+  summary{grid-template-columns:minmax(0,1fr) 150px}
+  summary .dl{grid-column:1/-1;text-align:left;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .guide{grid-template-columns:1fr}.tips{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .body{grid-template-columns:repeat(2,minmax(0,1fr))}.f.w2{grid-column:1/-1}
+}
+@media (max-width:640px){
+  .facs{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .soon,.tl,.tips,.mgrid{grid-template-columns:1fr}
+  summary{grid-template-columns:1fr}
+  .filters{position:static}
+  .body{grid-template-columns:1fr}
+  footer .wrap{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.fac{transition:none}}
+</style>
+
+<div class="stole" id="stole" aria-hidden="true"></div>
+<nav class="top"><div class="wrap">
+  <a class="brand" href="#top">Scholar Atlas <span>2027</span></a>
+  <a class="l" href="#match">GPA match</a><a class="l" href="#faculties">Faculties</a><a class="l" href="#closing">Closing soon</a>
+  <a class="l" href="#browse">All scholarships</a><a class="l" href="#path">Timeline</a><a class="l" href="#gpa">GPA guide</a><a class="l" href="#tips">Tips</a>
+</div></nav>
+
+<header class="hero" id="top"><div class="wrap">
+  <div>
+    <div class="kicker">Class of 2027 · every faculty · every country</div>
+    <h1>Find the scholarships your <em>GPA</em> can win.</h1>
+    <p class="lead">Government, university and foundation scholarships for bachelor's, master's and PhD study in 40+ countries. Enter your grade on any scale and see which ones you meet, sorted by deadline.</p>
+    <div class="facts">
+      <div><b id="fTotal">382</b><span>scholarships</span></div>
+      <div><b id="fFull">–</b><span>fully funded</span></div>
+      <div><b>15</b><span>faculties</span></div>
+      <div><b id="fOpen">–</b><span>still open for 2027</span></div>
+    </div>
+  </div>
+  <form class="matcher" id="match" onsubmit="event.preventDefault();goBrowse()">
+    <h2>Your GPA match</h2>
+    <p class="s">Grades are converted to a 4.0 scale so you can compare. Your answers stay in this browser.</p>
+    <div class="mgrid">
+      <div class="fld" style="grid-column:1/-1"><label for="gpaIn">My grade</label>
+        <div class="gparow"><input id="gpaIn" type="number" step="0.01" min="0" value="3.4" aria-label="Grade value">
+          <select id="scale" aria-label="Grading scale">
+            <option value="4">out of 4.0</option><option value="4.3">out of 4.3</option><option value="4.5">out of 4.5</option><option value="5">out of 5.0</option>
+            <option value="10">out of 10</option><option value="20">out of 20 (France, francophone Africa)</option><option value="100">percent (%)</option><option value="uk">UK class (1 = First, 2 = 2:1, 3 = 2:2)</option>
+          </select></div>
+        <div class="conv" id="convOut"></div></div>
+      <div class="fld"><label for="mLevel">I want to study</label><select id="mLevel"><option value="">Any level</option><option value="B">Bachelor's</option><option value="M" selected>Master's</option><option value="P">PhD</option></select></div>
+      <div class="fld"><label for="mFrom">I'm from</label><select id="mFrom"><option value="">Anywhere</option><option>Africa</option><option>Asia</option><option>Latin America &amp; Caribbean</option><option>Middle East &amp; North Africa</option><option>Europe</option><option>North America</option><option>Oceania</option></select></div>
+      <div class="fld" style="grid-column:1/-1"><label for="mFac">My faculty</label><select id="mFac"><option value="">Any faculty</option></select></div>
+    </div>
+    <div class="result"><div class="big" id="mCount">–</div><div class="txt" id="mTxt">scholarships you meet</div><button class="btn" type="submit">Show my matches</button></div>
+  </form>
+</div></header>
+
+<main>
+<section id="faculties"><div class="wrap">
+  <div class="sh"><div><div class="kicker">Faculties</div><h2>Pick your faculty</h2></div><p>Counts include scholarships open to all fields. Click a faculty to filter the list.</p></div>
+  <div class="facs" id="facGrid"></div>
+  <p class="hoodnote">Each faculty uses its traditional academic hood colour, the colour graduates wear at ceremonies. Computer science has no traditional colour, so it gets slate.</p>
+</div></section>
+
+<section id="closing"><div class="wrap">
+  <div class="sh"><div><div class="kicker">Deadlines</div><h2>Closing soon</h2></div><p>The next deadlines for a 2027 start, counted from today. Dates are approximate, so confirm on the official site.</p></div>
+  <div class="soon" id="soonGrid"></div>
+</div></section>
+
+<section id="browse"><div class="wrap">
+  <div class="sh"><div><div class="kicker">Register</div><h2>All scholarships</h2></div><p>Sort by GPA or deadline, filter by faculty, level and region, and save a shortlist.</p></div>
+  <div class="reg">
+    <div class="filters">
+      <div class="f1">
+        <input id="q" type="search" placeholder="Search: Erasmus, medicine, Japan, women, stipend…" aria-label="Search">
+        <select id="sort" aria-label="Sort by">
+          <option value="match">Sort: best match for my GPA</option><option value="dl">Sort: deadline (soonest)</option>
+          <option value="gpaAsc">Sort: GPA needed (lowest first)</option><option value="gpaDesc">Sort: GPA needed (highest first)</option><option value="name">Sort: A–Z</option>
+        </select>
+        <select id="fRegion" aria-label="Study destination"><option value="">All destinations</option></select>
+        <select id="fLevel" aria-label="Level"><option value="">All levels</option><option value="B">Bachelor's</option><option value="M">Master's</option><option value="P">PhD</option></select>
+        <select id="fFrom" aria-label="Where you are from"><option value="">From anywhere</option><option>Africa</option><option>Asia</option><option>Latin America &amp; Caribbean</option><option>Middle East &amp; North Africa</option><option>Europe</option><option>North America</option><option>Oceania</option></select>
+      </div>
+      <div class="chips" id="facChips"><span class="lab">Faculty</span></div>
+      <div class="toggles">
+        <label><input type="checkbox" id="tMeet"> Only ones my GPA meets</label>
+        <label><input type="checkbox" id="tFull"> Fully funded only</label>
+        <label><input type="checkbox" id="tOpen" checked> Hide rounds already closed for 2027</label>
+        <label><input type="checkbox" id="tSaved"> My shortlist</label>
+      </div>
+    </div>
+    <div class="bar2"><span id="count">Loading…</span><span id="myg"></span></div>
+    <div id="list"></div>
+    <div class="loadmore"><button class="btn ghost" id="more" type="button" hidden>Show more</button></div>
+  </div>
+</div></section>
+
+<section id="path"><div class="wrap">
+  <div class="sh"><div><div class="kicker">Class of 2027</div><h2>Your application year</h2></div><p>Most deadlines for a September 2027 start fall between November 2026 and March 2027. The gold card marks where you are now.</p></div>
+  <div class="tl" id="tl"></div>
+</div></section>
+
+<section id="gpa"><div class="wrap">
+  <div class="sh"><div><div class="kicker">GPA guide</div><h2>How grades compare</h2></div><p>An approximate guide. Every university and scholarship converts grades its own way, so always use the official rules for the final check.</p></div>
+  <div class="guide">
+    <div class="tblwrap"><table class="conv">
+      <thead><tr><th>4.0 scale</th><th>Percent</th><th>Out of 20</th><th>Out of 10</th><th>UK class</th></tr></thead>
+      <tbody>
+        <tr><td>4.0</td><td>90+</td><td>16+</td><td>9+</td><td>First</td></tr>
+        <tr><td>3.7</td><td>85</td><td>14</td><td>8.5</td><td>First / high 2:1</td></tr>
+        <tr><td>3.3</td><td>80</td><td>13</td><td>7.7</td><td>2:1</td></tr>
+        <tr><td>3.0</td><td>75</td><td>12</td><td>7</td><td>Low 2:1</td></tr>
+        <tr><td>2.7</td><td>70</td><td>11</td><td>6.4</td><td>2:2</td></tr>
+        <tr><td>2.3</td><td>65</td><td>10</td><td>5.8</td><td>Low 2:2</td></tr>
+        <tr><td>2.0</td><td>60</td><td>9.5</td><td>5</td><td>Third</td></tr>
+      </tbody></table></div>
+    <div class="bands">
+      <div class="band"><b>Official minimum</b><p>The scholarship publishes this threshold, for example GKS (80% or 2.64/4), Türkiye Bursları (70% / 75% / 80%), ETH (top 10%). Below it, you can't apply.</p></div>
+      <div class="band"><b>Typical competitive GPA</b><p>No official minimum is published, so this shows the profile that usually wins (an estimate). You can still apply below it if the rest of your file is strong.</p></div>
+      <div class="band"><b>GPA isn't everything</b><p>Research, leadership, a strong essay and good references often outweigh a few tenths of a GPA point.</p></div>
+    </div>
+  </div>
+</div></section>
+
+<section id="tips"><div class="wrap">
+  <div class="sh"><div><div class="kicker">Playbook</div><h2>How to win them</h2></div><p>What committees look for, whatever your field.</p></div>
+  <div class="tips" id="tipGrid"></div>
+</div></section>
+</main>
+
+<footer><div class="wrap">
+  <div><b>Before you apply:</b> scholarship rules, amounts, eligible countries and dates change every year. Open the official website on each scholarship and read the current call. Never pay an agent to apply for a government scholarship; almost all of these are free to apply for.</div>
+  <div>Scholar Atlas 2027 · researched November 2026 · free to share.</div>
+</div></footer>
+
+<script>
+const TODAY=new Date();
+const FAC=[["ENG","Engineering & Technology"],["CS","Computer Science & AI"],["SCI","Natural Sciences & Mathematics"],["MED","Medicine & Dentistry"],["HLT","Public Health, Nursing & Pharmacy"],
+ ["AGR","Agriculture, Food & Veterinary"],["ENV","Environment, Energy & Earth"],["BUS","Business, Economics & Finance"],["LAW","Law & International Relations"],["SOC","Social Sciences & Public Policy"],
+ ["DEV","Development Studies"],["EDU","Education"],["HUM","Humanities & Languages"],["ART","Arts, Music, Design & Architecture"],["JRN","Journalism & Media"]];
+const FACN=Object.fromEntries(FAC);
+const WHO={ALL:"Open to all nationalities",DEV:"Developing countries",AFR:"Africa",ASIA:"Asia",LATAM:"Latin America & Caribbean",COMM:"Commonwealth countries",OIC:"IsDB / OIC member countries",WOMEN:"Women",REF:"Refugees"};
+const LV={B:"Bachelor's",M:"Master's",P:"PhD"};
+const PATH=[
+ ["2026-09-01","2026-10-31","Sept – Oct 2026","Early rounds","Chevening, Rhodes, Commonwealth, Knight-Hennessy and GKS undergraduate have closed for 2027. Note them for 2028."],
+ ["2026-11-01","2026-12-31","Nov – Dec 2026","Peak season","US undergraduate (Jan 1) and PhD (Dec 1–15), DAAD, Eiffel nominations, HKPFS, SINGA, ETH/EPFL, Yenching, NYU Law, AAUW."],
+ ["2027-01-01","2027-01-31","Jan 2027","Europe opens wide","Erasmus Mundus, Gates and Clarendon, Swedish and Finnish universities (Jan 15), Stipendium Hungaricum, IsDB, LSE and Hong Kong entrance awards."],
+ ["2027-02-01","2027-03-31","Feb – Mar 2027","Asia & government schemes","Türkiye Bursları (Feb 20), GKS graduate, CSC China, Netherlands, Ireland GOI-IES, Master Mind, Pan African University, Manaaki NZ."],
+ ["2027-04-01","2027-06-30","Apr – Jun 2027","Results & second chances","Offers arrive. MEXT embassy round (for 2028), Australia coursework awards, Saudi universities, Italian scholarships, Mexican and Brazilian calls."],
+ ["2027-06-01","2027-08-31","Jun – Aug 2027","Graduate & prepare","Graduation, transcripts, visas, Italian DSU grants (Jul–Sept). Start building your 2028 applications if needed."],
+ ["2027-08-01","2027-10-31","Aug – Oct 2027","2028 round opens","Chevening, Rhodes, Commonwealth, Knight-Hennessy, GKS undergraduate and Australian research rounds for 2028."],
+ ["2027-09-01","2027-10-31","Sept – Oct 2027","Start","Begin your degree. In year one, apply for top-up awards inside your university."],
+];
+const TIPS=[
+ ["Start with the deadline","Sort by deadline and work backwards. Most scholarships need 6–10 weeks to collect letters, test scores and translations."],
+ ["Mind the official GPA","If a scholarship publishes a minimum, check it with the official conversion. If it only lists a typical GPA, a strong file can still win."],
+ ["Tailor every essay","Name the programme's courses, professors and labs. Explain what you'll do after, and why that matters for your country or community."],
+ ["Choose referees who know you","A lecturer who supervised your project writes a better letter than a famous name. Ask 6 weeks ahead and send them your CV."],
+ ["Take the English test early","IELTS 7.0 or TOEFL 100 covers almost everything. Ask your university for an English Medium of Instruction letter too."],
+ ["Contact professors","For research master's and PhDs (China, Japan, Korea, Canada, the US, Singapore), a supervisor's interest often decides funding."],
+ ["Apply widely","Aim for 10–20 applications across 3–5 countries: a few dream options, many realistic ones and a couple of safe ones."],
+ ["Show impact, not just grades","Leadership, volunteering, competitions, publications and work experience separate equal GPAs."],
+ ["Never pay to apply","Government scholarships like CSC, MEXT, GKS, Türkiye Bursları, DAAD and Erasmus Mundus are free. Avoid agents who promise guaranteed awards."],
+];
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const hood=c=>`var(--h-${c})`;
+$("stole").innerHTML=FAC.map(f=>`<i style="background:${hood(f[0])}"></i>`).join("");
+
+/* GPA conversion */
+function lerp(t,x){if(x>=t[0][0])return t[0][1];for(let i=1;i<t.length;i++){if(x>=t[i][0]){const [a,ya]=t[i-1],[b,yb]=t[i];return yb+(x-b)*(ya-yb)/(a-b)}}return t[t.length-1][1]}
+function toGPA(v,s){
+  if(!isFinite(v))return null;
+  if(s==="uk")return v<=1?3.8:v<=2?3.3:v<=3?2.7:2.2;
+  const n=+s;
+  if(n===10)return lerp([[9,4],[8.5,3.7],[7.7,3.3],[7,3],[6.4,2.7],[5.8,2.3],[5,2],[4,1.5]],v);
+  if(n===20)return lerp([[16,4],[14,3.7],[13,3.3],[12,3],[11,2.7],[10,2.3],[9.5,2],[8,1.5]],v);
+  if(n===100)return lerp([[90,4],[85,3.7],[80,3.3],[75,3],[70,2.7],[65,2.3],[60,2],[50,1.5]],v);
+  return Math.min(4,v*4/n);
+}
+let MYGPA=null;
+function readGPA(){
+  const v=parseFloat($("gpaIn").value),s=$("scale").value;
+  MYGPA=toGPA(v,s); if(MYGPA!=null)MYGPA=Math.max(0,Math.min(4,MYGPA));
+  $("convOut").innerHTML=MYGPA==null?"Enter your grade":`≈ <b>${MYGPA.toFixed(2)}</b> on a 4.0 scale (approximate)`;
+  $("myg").textContent=MYGPA==null?"":`Your GPA ≈ ${MYGPA.toFixed(2)} / 4.0`;
+  store.set("sa-gpa",{v:$("gpaIn").value,s});
+}
+function matchOf(r){if(MYGPA==null)return"";return MYGPA>=r.gpa?"ok":MYGPA>=r.gpa-0.2?"near":"no"}
+
+/* eligibility by origin */
+const DEVREG=["Africa","Asia","Latin America & Caribbean","Middle East & North Africa"];
+function fromOK(r,from){
+  if(!from)return true;
+  const w=r.who;
+  if(w.some(x=>["ALL","WOMEN","REF","COMM","OIC"].includes(x)))return true;
+  if(w.includes("AFR")&&(from==="Africa"||from==="Middle East & North Africa"))return true;
+  if(w.includes("ASIA")&&(from==="Asia"||from==="Middle East & North Africa"))return true;
+  if(w.includes("LATAM")&&from==="Latin America & Caribbean")return true;
+  if(w.includes("DEV")&&DEVREG.includes(from))return true;
+  return false;
+}
+/* deadlines */
+const DAY=864e5;
+function dlInfo(r){
+  const d=new Date(r.dl+"T23:59:59"),days=Math.ceil((d-TODAY)/DAY);
+  const fmt=d.toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"});
+  if(days<0){const nx=new Date(d);nx.setFullYear(nx.getFullYear()+1);return{days,cls:"d-closed",txt:"Closed for 2027",sub:"Next round ~"+nx.toLocaleDateString("en-GB",{month:"short",year:"numeric"}),closed:true}}
+  if(days<=30)return{days,cls:"d-urgent",txt:days===0?"Closes today":`Closes in ${days} day${days>1?"s":""}`,sub:"~"+fmt};
+  if(days<=90)return{days,cls:"d-soon",txt:`${days} days left`,sub:"~"+fmt};
+  return{days,cls:"d-later",txt:"Opens / closes later",sub:"~"+fmt};
+}
+const hasFac=(r,f)=>!f||r.fields.includes("ALL")||r.fields.includes(f);
+const hasLv=(r,l)=>!l||r.lv.includes(l);
+
+let DATA=[],fac="",shown=30,saved=new Set(store.get("sa-saved",[]));
+
+function matcherCount(){
+  if(!DATA.length)return;
+  const l=$("mLevel").value,f=$("mFac").value,from=$("mFrom").value;
+  const pool=DATA.filter(r=>hasLv(r,l)&&hasFac(r,f)&&fromOK(r,from)&&!dlInfo(r).closed);
+  const ok=pool.filter(r=>MYGPA!=null&&MYGPA>=r.gpa);
+  const soon=ok.filter(r=>dlInfo(r).days<=60).length;
+  $("mCount").textContent=ok.length;
+  $("mTxt").innerHTML=`of <b>${pool.length}</b> open scholarships match your GPA. <b>${soon}</b> close in the next 60 days.`;
+  store.set("sa-match",{l,f,from});
+}
+function goBrowse(){
+  $("fLevel").value=$("mLevel").value; $("fFrom").value=$("mFrom").value; setFac($("mFac").value);
+  $("tMeet").checked=true; $("sort").value="match"; reset(); $("browse").scrollIntoView();
+}
+
+function filtered(){
+  const q=$("q").value.trim().toLowerCase(),reg=$("fRegion").value,l=$("fLevel").value,from=$("fFrom").value;
+  let res=DATA.filter(r=>{
+    if(!hasFac(r,fac)||!hasLv(r,l)||!fromOK(r,from))return false;
+    if(reg&&r.region!==reg)return false;
+    if($("tFull").checked&&r.fund!=="Full")return false;
+    if($("tOpen").checked&&dlInfo(r).closed)return false;
+    if($("tSaved").checked&&!saved.has(r.id))return false;
+    if($("tMeet").checked&&MYGPA!=null&&MYGPA<r.gpa)return false;
+    if(q){const h=(r.name+" "+r.country+" "+r.provider+" "+r.cov+" "+r.tips+" "+r.lang+" "+r.fields.map(f=>FACN[f]||"all fields").join(" ")+" "+r.who.map(w=>WHO[w]).join(" ")).toLowerCase();
+      if(!q.split(/\s+/).every(w=>h.includes(w)))return false}
+    return true});
+  const s=$("sort").value, dk=r=>{const i=dlInfo(r);return i.closed?1e6+i.days*-1:i.days};
+  const fundRank=r=>r.fund==="Full"?0:1;
+  if(s==="dl")res.sort((a,b)=>dk(a)-dk(b));
+  else if(s==="gpaAsc")res.sort((a,b)=>a.gpa-b.gpa||dk(a)-dk(b));
+  else if(s==="gpaDesc")res.sort((a,b)=>b.gpa-a.gpa||dk(a)-dk(b));
+  else if(s==="name")res.sort((a,b)=>a.name.localeCompare(b.name));
+  else{const mr={ok:0,near:1,no:2,"":0};res.sort((a,b)=>mr[matchOf(a)]-mr[matchOf(b)]||fundRank(a)-fundRank(b)||dk(a)-dk(b))}
+  return res;
+}
+const dots=r=>r.fields.includes("ALL")?`<span class="dots" title="All faculties">${FAC.map(f=>`<i style="background:${hood(f[0])};width:4px;border-radius:0;border:0;height:10px"></i>`).join("")}</span> All faculties`
+  :`<span class="dots">${r.fields.map(f=>`<i style="background:${hood(f)}" title="${esc(FACN[f])}"></i>`).join("")}</span> ${r.fields.slice(0,3).map(f=>esc(FACN[f])).join(", ")}${r.fields.length>3?" +"+(r.fields.length-3):""}`;
+function gauge(r){
+  const lo=2,hi=4,p=x=>Math.max(0,Math.min(100,(x-lo)/(hi-lo)*100));
+  const m=matchOf(r);
+  const mt=m==="ok"?'<div class="match m-ok">✓ Your GPA meets this</div>':m==="near"?'<div class="match m-near">Within 0.2 of the level</div>':m==="no"?'<div class="match m-no">Below the level</div>':"";
+  return `<div class="gauge"><div class="lbl"><span>${r.gb==="O"?"Min.":"Typical"}</span><b>${r.gpa.toFixed(2)}</b></div>
+   <div class="track" title="Scale 2.0 to 4.0"><span class="req" style="width:${p(r.gpa)}%"></span>${MYGPA!=null?`<span class="me" style="left:${p(MYGPA)}%"></span>`:""}</div>${mt}</div>`;
+}
+function card(r){
+  const d=dlInfo(r);
+  const who=r.who.filter(w=>w!=="ALL").map(w=>`<span class="pill who">${esc(WHO[w])}</span>`).join("");
+  return `<details class="s"><summary>
+   <div class="t"><h3>${esc(r.name)}</h3><div class="meta"><span>${esc(r.country)}</span><span>${r.lv.split("").map(x=>LV[x]).join(" · ")}</span>
+     <span class="pill ${r.fund==="Full"?"full":"part"}">${r.fund==="Full"?"Fully funded":r.fund==="Tuition"?"Tuition only":"Partial"}</span>${who}</div>
+     <div class="meta">${dots(r)}</div></div>
+   ${gauge(r)}
+   <div class="dl"><span class="days ${d.cls}">${d.txt}</span><div class="date">${esc(d.sub)}</div></div>
+  </summary><dl class="body">
+   ${f("What it covers",esc(r.cov),"w2")}${f("Who can apply",r.who.map(w=>esc(WHO[w])).join(", "))}
+   ${f("GPA",`${r.gpa.toFixed(2)} / 4.0 · ${r.gb==="O"?"official minimum (converted)":"typical competitive level (estimate)"}`)}${f("Language",esc(r.lang))}${f("Application window",esc(r.win))}
+   ${f("Provider",esc(r.provider)+" · "+esc(r.type))}${f("Official website",`<a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.url.replace(/^https?:\/\//,""))}</a>`,"w2")}
+   ${f("How to win it",esc(r.tips)+(r.note?" "+esc(r.note):""),"w3 tip")}
+   <div class="f"><button class="star" type="button" data-star="${r.id}" aria-pressed="${saved.has(r.id)}">${saved.has(r.id)?"★ On my shortlist":"☆ Add to shortlist"}</button></div>
+  </dl></details>`;
+}
+function f(l,v,c=""){return `<div class="f ${c}"><dt>${l}</dt><dd>${v}</dd></div>`}
+function render(){
+  const res=filtered();
+  $("count").innerHTML=`<strong>${res.length}</strong> of ${DATA.length} scholarships · <strong>${res.filter(r=>r.fund==="Full").length}</strong> fully funded${saved.size?` · ★ ${saved.size} saved`:""}`;
+  $("list").innerHTML=res.length?res.slice(0,shown).map(card).join(""):'<div class="empty">Nothing matches these filters. Try “All destinations”, untick “Only ones my GPA meets”, or clear the search.</div>';
+  $("more").hidden=res.length<=shown; $("more").textContent=`Show ${Math.min(30,res.length-shown)} more (${res.length-shown} left)`;
+}
+function reset(){shown=30;render()}
+function setFac(v){fac=v||"";[...$("facChips").querySelectorAll(".chip")].forEach(c=>c.setAttribute("aria-pressed",c.dataset.f===fac));
+  [...$("facGrid").children].forEach(c=>c.setAttribute("aria-pressed",c.dataset.f===fac&&fac!==""))}
+
+/* static pieces */
+$("mFac").insertAdjacentHTML("beforeend",FAC.map(([c,n])=>`<option value="${c}">${esc(n)}</option>`).join(""));
+$("facChips").insertAdjacentHTML("beforeend",`<button class="chip" type="button" data-f="" aria-pressed="true">All</button>`+FAC.map(([c,n])=>`<button class="chip" type="button" data-f="${c}" aria-pressed="false"><span class="sw" style="background:${hood(c)}"></span>${esc(n.split(/[,&]/)[0].trim())}</button>`).join(""));
+$("facChips").addEventListener("click",e=>{const b=e.target.closest(".chip");if(b){setFac(b.dataset.f);reset()}});
+$("tl").innerHTML=PATH.map(([s,e,w,h,t])=>{const S=new Date(s),E=new Date(e+"T23:59:59");const c=E<TODAY?"past":S<=TODAY?"now":"";
+  return `<div class="step ${c}">${c==="now"?'<span class="here">YOU ARE HERE</span>':""}<div class="w">${w}</div><h3>${h}</h3><p>${t}</p></div>`}).join("");
+$("tipGrid").innerHTML=TIPS.map(([h,t])=>`<div class="tip"><h3>${h}</h3><p>${t}</p></div>`).join("");
+
+/* events */
+["gpaIn","scale"].forEach(id=>$(id).addEventListener("input",()=>{readGPA();matcherCount();render()}));
+["mLevel","mFac","mFrom"].forEach(id=>$(id).addEventListener("change",matcherCount));
+["q"].forEach(id=>$(id).addEventListener("input",reset));
+["sort","fRegion","fLevel","fFrom","tMeet","tFull","tOpen","tSaved"].forEach(id=>$(id).addEventListener("change",reset));
+$("more").onclick=()=>{shown+=30;render()};
+$("list").addEventListener("click",e=>{const b=e.target.closest("[data-star]");if(!b)return;e.preventDefault();
+  const id=+b.dataset.star;saved.has(id)?saved.delete(id):saved.add(id);store.set("sa-saved",[...saved]);
+  b.setAttribute("aria-pressed",saved.has(id));b.textContent=saved.has(id)?"★ On my shortlist":"☆ Add to shortlist";if($("tSaved").checked)render()});
+$("facGrid").addEventListener("click",e=>{const b=e.target.closest(".fac");if(!b)return;setFac(b.dataset.f);$("mFac").value=b.dataset.f;matcherCount();reset();$("browse").scrollIntoView()});
+$("soonGrid").addEventListener("click",e=>{const c=e.target.closest(".sc");if(!c)return;$("q").value=c.dataset.q;setFac("");$("tMeet").checked=false;$("fRegion").value="";reset();$("browse").scrollIntoView()});
+
+/* restore */
+const g=store.get("sa-gpa",null);if(g){$("gpaIn").value=g.v;$("scale").value=g.s}
+const mm=store.get("sa-match",null);if(mm){$("mLevel").value=mm.l;$("mFac").value=mm.f;$("mFrom").value=mm.from}
+readGPA();
+
+fetch("scholarships.json").then(r=>r.json()).then(d=>{
+  DATA=d;
+  $("fTotal").textContent=d.length;$("fFull").textContent=d.filter(r=>r.fund==="Full").length;$("fOpen").textContent=d.filter(r=>!dlInfo(r).closed).length;
+  $("fRegion").insertAdjacentHTML("beforeend",[...new Set(d.map(r=>r.region))].sort().map(x=>`<option>${esc(x)}</option>`).join(""));
+  $("facGrid").innerHTML=FAC.map(([c,n])=>{const k=d.filter(r=>hasFac(r,c));const spec=d.filter(r=>r.fields.includes(c)).length;
+    return `<button class="fac" type="button" data-f="${c}" aria-pressed="false"><span class="top"><span class="hood" style="background:${hood(c)};${c==="HUM"?"outline:1px solid var(--line)":""}"></span><span class="n">${k.length}</span></span><h3>${esc(n)}</h3><small>${spec} specific to this field</small></button>`}).join("");
+  const soon=d.map(r=>({r,i:dlInfo(r)})).filter(x=>!x.i.closed).sort((a,b)=>a.i.days-b.i.days).slice(0,8);
+  $("soonGrid").innerHTML=soon.map(({r,i})=>`<div class="sc" role="button" tabindex="0" data-q="${esc(r.name.split(/[–(]/)[0].trim())}"><span class="days ${i.cls}">${i.txt}</span><h3>${esc(r.name)}</h3><span class="c">${esc(r.country)} · ${r.fund==="Full"?"Fully funded":"Partial"} · GPA ${r.gpa.toFixed(1)}</span></div>`).join("");
+  if(mm&&mm.f)setFac("");
+  matcherCount();render();
+}).catch(()=>{$("count").textContent="Could not load the scholarship list. Reload the page to try again."});
+</script>
