@@ -420,7 +420,7 @@ footer b{color:var(--ink)}
 </div></footer>
 <div class="tray" id="tray" hidden><div class="wrap"><span class="names" id="trayNames"></span><span style="display:flex;gap:8px"><button type="button" id="trayGo" data-t="trayGo"></button><button type="button" class="ghost" id="trayClear" data-t="trayClear"></button></span></div></div>
 
-<script src="i18n.js"></script>
+<script src="i18n.js?v=3"></script>
 <script>
 const TODAY=new Date();
 const FACS=["ENG","CS","SCI","MED","HLT","AGR","ENV","BUS","LAW","SOC","DEV","EDU","HUM","ART","JRN"];
@@ -496,6 +496,7 @@ function dlInfo(r){
 }
 const hasFac=(r,f)=>!f||r.fields.includes("ALL")||r.fields.includes(f);
 const hasLv=(r,l)=>!l||r.lv.includes(l);
+const tx=(r,f)=>(LANG!=="en"&&r.i18n&&r.i18n[LANG]&&r.i18n[LANG][f])||r[f]||"";
 const fundTxt=r=>r.fund==="Full"?T("full"):r.fund==="Tuition"?T("tuition"):T("partial");
 const lvTxt=r=>r.lv.split("").map(x=>T(x)).join(" · ");
 
@@ -522,7 +523,7 @@ function filtered(){
     if($("tOpen").checked&&dlInfo(r).closed)return false;
     if($("tSaved").checked&&!saved.has(r.id))return false;
     if($("tMeet").checked&&MYGPA!=null&&MYGPA<r.gpa)return false;
-    if(q){const h=(r.name+" "+r.country+" "+ctryName(r.country)+" "+r.provider+" "+r.cov+" "+r.tips+" "+r.lang+" "+r.fields.map(f=>f==="ALL"?T("allFacs"):facName(f)+" "+I18N.en.fac[f]).join(" ")+" "+r.who.map(whoName).join(" ")).toLocaleLowerCase(LOC[LANG]);
+    if(q){const h=(r.name+" "+r.country+" "+ctryName(r.country)+" "+r.provider+" "+r.cov+" "+r.tips+" "+r.lang+" "+tx(r,"cov")+" "+tx(r,"tips")+" "+r.fields.map(f=>f==="ALL"?T("allFacs"):facName(f)+" "+I18N.en.fac[f]).join(" ")+" "+r.who.map(whoName).join(" ")).toLocaleLowerCase(LOC[LANG]);
       if(!q.split(/\s+/).every(w=>h.includes(w.toLocaleLowerCase(LOC[LANG]))))return false}
     return true});
   const s=$("sort").value,dk=r=>{const i=dlInfo(r);return i.closed?1e6-i.days:i.days},fr=r=>r.fund==="Full"?0:1;
@@ -549,11 +550,10 @@ function card(r){
      <span class="pill ${r.fund==="Full"?"full":"part"}">${fundTxt(r)}</span>${who}</div><div class="meta">${dots(r)}</div></div>
    ${gauge(r)}<div class="dl"><span class="days ${d.cls}">${d.txt}</span><div class="date">${esc(d.sub)}</div></div>
   </summary><dl class="body">
-   ${T("enNote")?`<div class="f w3 small">${T("enNote")}</div>`:""}
-   ${fld(T("dCov"),esc(r.cov),"w2")}${fld(T("dWho"),r.who.map(w=>esc(whoName(w))).join(", "))}
-   ${fld(T("dGpa"),`${num(r.gpa)} / 4.0 · ${r.gb==="O"?T("gOff"):T("gEst")}`)}${fld(T("dLang"),esc(r.lang))}${fld(T("dWin"),esc(r.win))}
-   ${fld(T("dProv"),esc(r.provider)+" · "+esc(r.type))}${fld(T("dWeb"),`<a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.url.replace(/^https?:\/\//,""))}</a>`,"w2")}
-   ${fld(T("dTips"),esc(r.tips)+(r.note?" "+esc(r.note):""),"w3 tip")}
+      ${fld(T("dCov"),esc(tx(r,"cov")),"w2")}${fld(T("dWho"),r.who.map(w=>esc(whoName(w))).join(", "))}
+   ${fld(T("dGpa"),`${num(r.gpa)} / 4.0 · ${r.gb==="O"?T("gOff"):T("gEst")}`)}${fld(T("dLang"),esc(tx(r,"lang")))}${fld(T("dWin"),esc(tx(r,"win")))}
+   ${fld(T("dProv"),esc(r.provider)+" · "+esc(tx(r,"type")))}${fld(T("dWeb"),`<a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.url.replace(/^https?:\/\//,""))}</a>`,"w2")}
+   ${fld(T("dTips"),esc(tx(r,"tips"))+(r.note?" "+esc(tx(r,"note")):""),"w3 tip")}
    <div class="acts">
      <button class="star" type="button" data-star="${r.id}" aria-pressed="${saved.has(r.id)}">${saved.has(r.id)?T("saveOn"):T("saveOff")}</button>
      <button class="act" type="button" data-cmp="${r.id}" aria-pressed="${cmp.has(r.id)}">${cmp.has(r.id)?T("cmpOn"):T("cmpOff")}</button>
@@ -601,10 +601,10 @@ function renderCmp(){
   const rs=[...cmp].map(byId);if(!rs.length){$("cmpWrap").innerHTML="";return}
   const row=(l,fn)=>`<tr><th>${l}</th>${rs.map(r=>`<td>${fn(r)}</td>`).join("")}</tr>`;
   $("cmpWrap").innerHTML=`<h3 style="font-family:var(--display);font-size:24px;margin:26px 0 0">${T("cmpTitle")}</h3><div class="cmp"><table><thead><tr><th></th>${rs.map(r=>`<td>${esc(r.name)}</td>`).join("")}</tr></thead><tbody>
-   ${row(T("cCountry"),r=>esc(ctryName(r.country)))}${row(T("cLevels"),r=>lvTxt(r))}${row(T("cFund"),fundTxt)}${row(T("cCov"),r=>esc(r.cov))}
+   ${row(T("cCountry"),r=>esc(ctryName(r.country)))}${row(T("cLevels"),r=>lvTxt(r))}${row(T("cFund"),fundTxt)}${row(T("cCov"),r=>esc(tx(r,"cov")))}
    ${row(T("cGpa"),r=>`${num(r.gpa)} (${r.gb==="O"?T("official"):T("typ")})${MYGPA!=null?(MYGPA>=r.gpa?" ✓":" ✗"):""}`)}
    ${row(T("cDl"),r=>{const d=dlInfo(r);return esc(d.txt+" · "+d.sub)})}${row(T("cWho"),r=>r.who.map(w=>esc(whoName(w))).join(", "))}
-   ${row(T("cLang"),r=>esc(r.lang))}${row(T("cFac"),r=>r.fields.includes("ALL")?T("allFacs"):r.fields.map(x=>esc(facName(x))).join(", "))}
+   ${row(T("cLang"),r=>esc(tx(r,"lang")))}${row(T("cFac"),r=>r.fields.includes("ALL")?T("allFacs"):r.fields.map(x=>esc(facName(x))).join(", "))}
    ${row(T("cWeb"),r=>`<a href="${esc(r.url)}" target="_blank" rel="noopener">${T("offSite")}</a>`)}</tbody></table></div>`;
 }
 $("trayGo").onclick=()=>{renderCmp();$("cmpWrap").scrollIntoView()};
@@ -721,7 +721,7 @@ const mm=store.get("sa-match",null);if(mm){$("mLevel").value=mm.l;$("mFac").valu
 const ev=store.get("sa-essay",null);if(ev)EF.forEach(k=>{if(ev[k])$(k).value=ev[k]});
 setLang(LANG);
 
-fetch("scholarships.json").then(r=>r.json()).then(d=>{
+fetch("scholarships.json?v=3").then(r=>r.json()).then(d=>{
   DATA=d;
   $("fTotal").textContent=d.length;$("fFull").textContent=d.filter(r=>r.fund==="Full").length;$("fOpen").textContent=d.filter(r=>!dlInfo(r).closed).length;
   renderStaticLists();matcherCount();render();renderPlan();renderCountries();readShared();
