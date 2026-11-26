@@ -1,6 +1,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Scholar Atlas 2027</title>
+<meta name="description" content="382 scholarships for every faculty and every country, with a GPA matcher, deadlines and an application tracker.">
+<meta name="theme-color" content="#14161f">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
 <style>
@@ -416,7 +421,7 @@ footer b{color:var(--ink)}
 
 <footer><div class="wrap">
   <div data-th="foot1"></div>
-  <div><span data-t="foot2"></span><br><span data-t="foot3"></span> <a href="https://github.com/AbdellaAlimech/scholar-atlas-2027/issues/new" target="_blank" rel="noopener" data-t="foot4"></a></div>
+  <div><span data-t="foot2"></span><br><span data-t="foot3"></span> <a href="https://github.com/AbdellaAlimech/scholar-atlas-2027/issues/new" target="_blank" rel="noopener" data-t="foot4"></a> · <a href="privacy.html">Privacy</a></div>
 </div></footer>
 <div class="tray" id="tray" hidden><div class="wrap"><span class="names" id="trayNames"></span><span style="display:flex;gap:8px"><button type="button" id="trayGo" data-t="trayGo"></button><button type="button" class="ghost" id="trayClear" data-t="trayClear"></button></span></div></div>
 
@@ -726,4 +731,6 @@ fetch("scholarships.json?v=3").then(r=>r.json()).then(d=>{
   $("fTotal").textContent=d.length;$("fFull").textContent=d.filter(r=>r.fund==="Full").length;$("fOpen").textContent=d.filter(r=>!dlInfo(r).closed).length;
   renderStaticLists();matcherCount();render();renderPlan();renderCountries();readShared();
 }).catch(()=>{$("count").textContent=T("loadErr")});
+
+if("serviceWorker" in navigator&&location.protocol==="https:"){addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}))}
 </script>
