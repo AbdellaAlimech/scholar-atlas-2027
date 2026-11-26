@@ -1,7 +1,7 @@
 /* Scholar Atlas 2027 service worker: works offline after the first visit.
    Pages and data are fetched fresh when online and fall back to the saved copy offline. */
-const CACHE = "scholar-atlas-v3";
-const CORE = ["./", "./index.html", "./i18n.js?v=3", "./scholarships.json?v=3", "./manifest.webmanifest",
+const CACHE = "scholar-atlas-v4";
+const CORE = ["./", "./index.html", "./i18n.js?v=4", "./scholarships.json?v=4", "./manifest.webmanifest",
   "./icons/icon-192.png", "./icons/icon-512.png", "./icons/icon-maskable-512.png"];
 
 self.addEventListener("install", e => {
