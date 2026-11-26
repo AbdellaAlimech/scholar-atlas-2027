@@ -91,7 +91,7 @@ section{padding-block:56px 6px}
 .soon{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
 .sc{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;min-width:0;display:flex;flex-direction:column;gap:8px;cursor:pointer}
 .sc:hover{border-color:var(--ink)}
-.days{font-family:var(--mono);font-weight:600;font-size:12.5px;padding:2px 8px;border-radius:4px;align-self:flex-start}
+.days{font-family:var(--mono);font-weight:600;font-size:12.5px;padding:2px 8px;border-radius:4px;align-self:flex-start;white-space:nowrap}
 .d-urgent{background:var(--bad-soft);color:var(--bad)}.d-soon{background:var(--near-soft);color:var(--near)}.d-later{background:var(--accent-soft);color:var(--accent)}.d-closed{background:var(--closed-soft);color:var(--closed)}
 .sc h3{margin:0;font-size:14.5px;line-height:1.35}
 .sc span.c{font-size:12.5px;color:var(--muted)}
@@ -171,6 +171,64 @@ table.conv tr:last-child td{border-bottom:0}
 .tip h3{margin:0 0 6px;font-family:var(--display);font-weight:800;font-size:19px}
 .tip p{margin:0;font-size:14.5px}
 
+/* card actions */
+.acts{grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding-top:4px}
+.act{font:inherit;font-size:13px;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:5px 10px;color:var(--ink);cursor:pointer;text-decoration:none;display:inline-flex;gap:6px;align-items:center}
+.act:hover{border-color:var(--ink)}
+.act[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+
+/* compare tray */
+.tray{position:fixed;left:0;right:0;bottom:0;z-index:25;background:var(--ink);color:var(--bg);padding-bottom:env(safe-area-inset-bottom,0px)}
+.tray .wrap{display:flex;gap:12px;align-items:center;justify-content:space-between;padding-block:10px;flex-wrap:wrap}
+.tray .names{font-size:13.5px;min-width:0;flex:1 1 300px}
+.tray button{font:inherit;font-weight:600;font-size:14px;border-radius:6px;padding:8px 14px;cursor:pointer;border:1px solid var(--bg);background:var(--bg);color:var(--ink)}
+.tray button.ghost{background:transparent;color:var(--bg)}
+
+/* banner */
+.banner{background:var(--gold-soft);border:1px solid var(--gold);border-radius:12px;padding:14px 16px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-top:20px}
+.banner p{margin:0;font-size:14.5px}
+
+/* plan */
+.plan-top{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:14px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px}
+.kpi b{display:block;font-family:var(--display);font-weight:800;font-size:32px;line-height:1;font-variant-numeric:tabular-nums}
+.kpi span{font-size:13px;color:var(--muted)}
+.plan-actions{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.ptable{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+.ptable table{border-collapse:collapse;width:100%;font-size:14px;min-width:640px}
+.ptable th,.ptable td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}
+.ptable th{font-size:11.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.ptable tr:last-child td{border-bottom:0}
+.ptable select{padding:6px 8px;font-size:13.5px;width:auto}
+.st-Won{color:var(--good);font-weight:700}.st-Rejected{color:var(--bad)}
+.cmp{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:12px;margin-top:14px}
+.cmp table{border-collapse:collapse;width:100%;min-width:640px;font-size:14px}
+.cmp th,.cmp td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.cmp th{width:150px;font-size:11.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.cmp thead td{font-weight:700}
+
+/* countries */
+.ctry-tools{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.ctry-tools select{width:auto}
+.ctry{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.cc{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;min-width:0;display:flex;flex-direction:column;gap:8px}
+.cc h3{margin:0;font-family:var(--display);font-weight:800;font-size:21px;display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.cc h3 small{font-family:var(--mono);font-size:11.5px;color:var(--muted);font-weight:500}
+.cc dl{margin:0;display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 12px;font-size:13.5px}
+.cc dt{color:var(--muted)}.cc dd{margin:0}
+.cc .go{font:inherit;font-size:13px;align-self:flex-start;background:none;border:0;color:var(--accent);cursor:pointer;padding:0;font-weight:600}
+
+/* essay */
+.essay{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:start}
+.eform{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:12px}
+.eform textarea,.eform input{font:inherit;font-size:14.5px;padding:9px 11px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);width:100%;resize:vertical}
+.eout{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;position:sticky;top:70px}
+.eout pre{white-space:pre-wrap;font-family:var(--body);font-size:14.5px;line-height:1.6;margin:0 0 12px;max-height:60vh;overflow:auto}
+.eout .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.small{font-size:13px;color:var(--muted)}
+@media (max-width:1000px){.plan-top{grid-template-columns:repeat(2,minmax(0,1fr))}.ctry{grid-template-columns:repeat(2,minmax(0,1fr))}.essay{grid-template-columns:1fr}.eout{position:static}}
+@media (max-width:640px){.ctry{grid-template-columns:1fr}}
+
 footer{margin-top:64px;border-top:1px solid var(--line);background:var(--surface)}
 footer .wrap{padding-block:26px 40px;display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:20px;font-size:13.5px;color:var(--muted)}
 footer b{color:var(--ink)}
@@ -200,7 +258,7 @@ footer b{color:var(--ink)}
 <nav class="top"><div class="wrap">
   <a class="brand" href="#top">Scholar Atlas <span>2027</span></a>
   <a class="l" href="#match">GPA match</a><a class="l" href="#faculties">Faculties</a><a class="l" href="#closing">Closing soon</a>
-  <a class="l" href="#browse">All scholarships</a><a class="l" href="#path">Timeline</a><a class="l" href="#gpa">GPA guide</a><a class="l" href="#tips">Tips</a>
+  <a class="l" href="#browse">All scholarships</a><a class="l" href="#plan">My plan</a><a class="l" href="#countries">Countries</a><a class="l" href="#essay">Letter builder</a><a class="l" href="#path">Timeline</a><a class="l" href="#gpa">GPA guide</a><a class="l" href="#tips">Tips</a>
 </div></nav>
 
 <header class="hero" id="top"><div class="wrap">
@@ -235,6 +293,7 @@ footer b{color:var(--ink)}
 </div></header>
 
 <main>
+<div class="wrap" id="sharedBanner" hidden><div class="banner"><p id="sharedTxt"></p><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" type="button" id="sharedShow">Show them</button><button class="btn ghost" type="button" id="sharedAdd">Add to my shortlist</button></div></div></div>
 <section id="faculties"><div class="wrap">
   <div class="sh"><div><div class="kicker">Faculties</div><h2>Pick your faculty</h2></div><p>Counts include scholarships open to all fields. Click a faculty to filter the list.</p></div>
   <div class="facs" id="facGrid"></div>
@@ -274,6 +333,51 @@ footer b{color:var(--ink)}
   </div>
 </div></section>
 
+<section id="plan"><div class="wrap">
+  <div class="sh"><div><div class="kicker">My plan</div><h2>Track your applications</h2></div><p>Everything you save with ☆ appears here, sorted by deadline. Set a status for each, add deadlines to your calendar, and share your list with a friend.</p></div>
+  <div class="plan-top">
+    <div class="kpi"><b id="kSaved">0</b><span>saved scholarships</span></div>
+    <div class="kpi"><b id="kNext">–</b><span>days to your next deadline</span></div>
+    <div class="kpi"><b id="kSub">0</b><span>submitted</span></div>
+    <div class="kpi"><b id="kWon">0</b><span>won</span></div>
+  </div>
+  <div class="plan-actions">
+    <button class="btn" type="button" id="icsAll">Add all deadlines to my calendar</button>
+    <button class="btn ghost" type="button" id="shareBtn">Copy a link to share my list</button>
+    <span class="small" id="shareMsg" role="status"></span>
+  </div>
+  <div class="ptable"><table><thead><tr><th>Scholarship</th><th>Deadline</th><th>GPA</th><th>Status</th><th></th></tr></thead><tbody id="planBody"></tbody></table></div>
+  <div id="cmpWrap"></div>
+</div></section>
+
+<section id="countries"><div class="wrap">
+  <div class="sh"><div><div class="kicker">Country guide</div><h2>Cost, work and life after graduation</h2></div><p>Approximate figures for international students in 2026: public tuition, living costs, how much you may work while studying, and how long you may stay to look for a job after graduating. Rules change often, so check the official immigration site.</p></div>
+  <div class="ctry-tools">
+    <select id="cSort" aria-label="Sort countries"><option value="name">Sort: A–Z</option><option value="live">Sort: lowest living cost</option><option value="psw">Sort: longest post-study stay</option></select>
+  </div>
+  <div class="ctry" id="ctryGrid"></div>
+</div></section>
+
+<section id="essay"><div class="wrap">
+  <div class="sh"><div><div class="kicker">Letter builder</div><h2>Draft your motivation letter</h2></div><p>Answer a few questions and get a structured first draft that follows the shape committees expect. Then rewrite it in your own voice; never send a template as is.</p></div>
+  <div class="essay">
+    <form class="eform" id="eform" onsubmit="event.preventDefault()">
+      <div class="fld"><label for="e1">Programme and university you're applying to</label><input id="e1" placeholder="MSc Renewable Energy, TU Delft"></div>
+      <div class="fld"><label for="e2">Scholarship name</label><input id="e2" placeholder="Erasmus Mundus / DAAD / Chevening…"></div>
+      <div class="fld"><label for="e3">A real problem you saw that made you choose this field</label><textarea id="e3" rows="2" placeholder="Power cuts in my town stopped the hospital's equipment for hours."></textarea></div>
+      <div class="fld"><label for="e4">Your strongest project, research or work experience</label><textarea id="e4" rows="2" placeholder="Final-year project: a solar-powered water pump for a village of 400 people."></textarea></div>
+      <div class="fld"><label for="e5">Two or three skills you bring</label><input id="e5" placeholder="MATLAB, field surveys, leading a student team of 12"></div>
+      <div class="fld"><label for="e6">Why this programme specifically (courses, professors, labs)</label><textarea id="e6" rows="2" placeholder="The course in grid integration and Prof. X's lab on mini-grids."></textarea></div>
+      <div class="fld"><label for="e7">Your goal after the degree</label><textarea id="e7" rows="2" placeholder="Return home to design mini-grids for rural clinics with the national energy agency."></textarea></div>
+      <div class="fld"><label for="e8">Leadership or community work</label><input id="e8" placeholder="Founded a free maths tutoring club for 60 secondary students"></div>
+    </form>
+    <div class="eout">
+      <pre id="eText"></pre>
+      <div class="row"><button class="btn" type="button" id="eCopy">Copy draft</button><span class="small" id="eWords"></span><span class="small" id="eMsg" role="status"></span></div>
+    </div>
+  </div>
+</div></section>
+
 <section id="path"><div class="wrap">
   <div class="sh"><div><div class="kicker">Class of 2027</div><h2>Your application year</h2></div><p>Most deadlines for a September 2027 start fall between November 2026 and March 2027. The gold card marks where you are now.</p></div>
   <div class="tl" id="tl"></div>
@@ -309,8 +413,10 @@ footer b{color:var(--ink)}
 
 <footer><div class="wrap">
   <div><b>Before you apply:</b> scholarship rules, amounts, eligible countries and dates change every year. Open the official website on each scholarship and read the current call. Never pay an agent to apply for a government scholarship; almost all of these are free to apply for.</div>
-  <div>Scholar Atlas 2027 · researched November 2026 · free to share.</div>
+  <div>Scholar Atlas 2027 · researched November 2026 · free to share.<br>
+  Found a wrong date or a missing scholarship? <a href="https://github.com/AbdellaAlimech/scholar-atlas-2027/issues/new" target="_blank" rel="noopener">Tell us on GitHub</a>.</div>
 </div></footer>
+<div class="tray" id="tray" hidden><div class="wrap"><span class="names" id="trayNames"></span><span style="display:flex;gap:8px"><button type="button" id="trayGo">Compare</button><button type="button" class="ghost" id="trayClear">Clear</button></span></div></div>
 
 <script>
 const TODAY=new Date();
@@ -413,6 +519,7 @@ function goBrowse(){
 function filtered(){
   const q=$("q").value.trim().toLowerCase(),reg=$("fRegion").value,l=$("fLevel").value,from=$("fFrom").value;
   let res=DATA.filter(r=>{
+    if(onlyIds){return onlyIds.has(r.id)}
     if(!hasFac(r,fac)||!hasLv(r,l)||!fromOK(r,from))return false;
     if(reg&&r.region!==reg)return false;
     if($("tFull").checked&&r.fund!=="Full")return false;
@@ -454,13 +561,19 @@ function card(r){
    ${f("GPA",`${r.gpa.toFixed(2)} / 4.0 · ${r.gb==="O"?"official minimum (converted)":"typical competitive level (estimate)"}`)}${f("Language",esc(r.lang))}${f("Application window",esc(r.win))}
    ${f("Provider",esc(r.provider)+" · "+esc(r.type))}${f("Official website",`<a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.url.replace(/^https?:\/\//,""))}</a>`,"w2")}
    ${f("How to win it",esc(r.tips)+(r.note?" "+esc(r.note):""),"w3 tip")}
-   <div class="f"><button class="star" type="button" data-star="${r.id}" aria-pressed="${saved.has(r.id)}">${saved.has(r.id)?"★ On my shortlist":"☆ Add to shortlist"}</button></div>
+   <div class="acts">
+     <button class="star" type="button" data-star="${r.id}" aria-pressed="${saved.has(r.id)}">${saved.has(r.id)?"★ On my shortlist":"☆ Add to shortlist"}</button>
+     <button class="act" type="button" data-cmp="${r.id}" aria-pressed="${cmp.has(r.id)}">${cmp.has(r.id)?"✓ Comparing":"⇄ Compare"}</button>
+     <button class="act" type="button" data-ics="${r.id}">📅 Add deadline to calendar</button>
+     <a class="act" href="${gcal(r)}" target="_blank" rel="noopener">Google Calendar</a>
+   </div>
   </dl></details>`;
 }
 function f(l,v,c=""){return `<div class="f ${c}"><dt>${l}</dt><dd>${v}</dd></div>`}
 function render(){
   const res=filtered();
-  $("count").innerHTML=`<strong>${res.length}</strong> of ${DATA.length} scholarships · <strong>${res.filter(r=>r.fund==="Full").length}</strong> fully funded${saved.size?` · ★ ${saved.size} saved`:""}`;
+  $("count").innerHTML=`<strong>${res.length}</strong> of ${DATA.length} scholarships · <strong>${res.filter(r=>r.fund==="Full").length}</strong> fully funded${saved.size?` · ★ ${saved.size} saved`:""}${onlyIds?` · showing a shared list <button class="act" type="button" id="clearShared">Show everything</button>`:""}`;
+  const cs=$("clearShared");if(cs)cs.onclick=()=>{onlyIds=null;$("tOpen").checked=true;reset()};
   $("list").innerHTML=res.length?res.slice(0,shown).map(card).join(""):'<div class="empty">Nothing matches these filters. Try “All destinations”, untick “Only ones my GPA meets”, or clear the search.</div>';
   $("more").hidden=res.length<=shown; $("more").textContent=`Show ${Math.min(30,res.length-shown)} more (${res.length-shown} left)`;
 }
@@ -482,9 +595,155 @@ $("tipGrid").innerHTML=TIPS.map(([h,t])=>`<div class="tip"><h3>${h}</h3><p>${t}<
 ["q"].forEach(id=>$(id).addEventListener("input",reset));
 ["sort","fRegion","fLevel","fFrom","tMeet","tFull","tOpen","tSaved"].forEach(id=>$(id).addEventListener("change",reset));
 $("more").onclick=()=>{shown+=30;render()};
-$("list").addEventListener("click",e=>{const b=e.target.closest("[data-star]");if(!b)return;e.preventDefault();
+$("list").addEventListener("click",e=>{
+  const c=e.target.closest("[data-cmp]");if(c){e.preventDefault();toggleCmp(+c.dataset.cmp);c.setAttribute("aria-pressed",cmp.has(+c.dataset.cmp));c.textContent=cmp.has(+c.dataset.cmp)?"✓ Comparing":"⇄ Compare";return}
+  const i=e.target.closest("[data-ics]");if(i){e.preventDefault();downloadICS([byId(+i.dataset.ics)]);return}
+  const b=e.target.closest("[data-star]");if(!b)return;e.preventDefault();
   const id=+b.dataset.star;saved.has(id)?saved.delete(id):saved.add(id);store.set("sa-saved",[...saved]);
-  b.setAttribute("aria-pressed",saved.has(id));b.textContent=saved.has(id)?"★ On my shortlist":"☆ Add to shortlist";if($("tSaved").checked)render()});
+  b.setAttribute("aria-pressed",saved.has(id));b.textContent=saved.has(id)?"★ On my shortlist":"☆ Add to shortlist";renderPlan();if($("tSaved").checked)render()});
+
+/* ---------- calendar ---------- */
+const byId=id=>DATA.find(r=>r.id===id);
+function nextDL(r){const d=new Date(r.dl+"T12:00:00");if(d<TODAY)d.setFullYear(d.getFullYear()+1);return d}
+const ymd=d=>d.getFullYear()+String(d.getMonth()+1).padStart(2,"0")+String(d.getDate()).padStart(2,"0");
+const icsEsc=s=>String(s).replace(/[\\;,]/g,m=>"\\"+m).replace(/\n/g,"\\n");
+function gcal(r){const d=nextDL(r),e=new Date(d);e.setDate(e.getDate()+1);
+  return "https://calendar.google.com/calendar/render?action=TEMPLATE&text="+encodeURIComponent("Deadline: "+r.name)+"&dates="+ymd(d)+"/"+ymd(e)+"&details="+encodeURIComponent("Approximate deadline. Confirm on the official site: "+r.url)}
+function downloadICS(rows){
+  rows=rows.filter(Boolean);if(!rows.length)return;
+  const stamp=new Date().toISOString().replace(/[-:]/g,"").split(".")[0]+"Z";
+  const ev=rows.map(r=>{const d=nextDL(r),e=new Date(d);e.setDate(e.getDate()+1);return ["BEGIN:VEVENT","UID:sa2027-"+r.id+"-"+ymd(d)+"@scholar-atlas","DTSTAMP:"+stamp,"DTSTART;VALUE=DATE:"+ymd(d),"DTEND;VALUE=DATE:"+ymd(e),
+    "SUMMARY:"+icsEsc("Deadline: "+r.name),"DESCRIPTION:"+icsEsc("Approximate deadline - confirm on the official site: "+r.url),"URL:"+r.url,
+    "BEGIN:VALARM","ACTION:DISPLAY","DESCRIPTION:"+icsEsc("2 weeks left: "+r.name),"TRIGGER:-P14D","END:VALARM",
+    "BEGIN:VALARM","ACTION:DISPLAY","DESCRIPTION:"+icsEsc("3 days left: "+r.name),"TRIGGER:-P3D","END:VALARM","END:VEVENT"].join("\r\n")}).join("\r\n");
+  const txt=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Scholar Atlas 2027//EN","CALSCALE:GREGORIAN",ev,"END:VCALENDAR"].join("\r\n");
+  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([txt],{type:"text/calendar"}));
+  a.download=rows.length===1?"deadline-"+rows[0].id+".ics":"my-scholarship-deadlines.ics";document.body.appendChild(a);a.click();
+  setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1000);
+}
+
+/* ---------- compare ---------- */
+const cmp=new Set();
+function toggleCmp(id){if(cmp.has(id))cmp.delete(id);else{if(cmp.size>=3){const first=[...cmp][0];cmp.delete(first)}cmp.add(id)}updateTray()}
+function updateTray(){$("tray").hidden=cmp.size===0;$("trayNames").textContent=`Comparing ${cmp.size}/3: `+[...cmp].map(id=>byId(id).name.split(/[–(]/)[0].trim()).join(" · ");
+  $("list").querySelectorAll("[data-cmp]").forEach(b=>{const on=cmp.has(+b.dataset.cmp);b.setAttribute("aria-pressed",on);b.textContent=on?"✓ Comparing":"⇄ Compare"})}
+function renderCmp(){
+  const rs=[...cmp].map(byId);if(!rs.length){$("cmpWrap").innerHTML="";return}
+  const row=(l,fn)=>`<tr><th>${l}</th>${rs.map(r=>`<td>${fn(r)}</td>`).join("")}</tr>`;
+  $("cmpWrap").innerHTML=`<h3 style="font-family:var(--display);font-size:24px;margin:26px 0 0">Side-by-side comparison</h3><div class="cmp"><table><thead><tr><th></th>${rs.map(r=>`<td>${esc(r.name)}</td>`).join("")}</tr></thead><tbody>
+   ${row("Country",r=>esc(r.country))}${row("Levels",r=>r.lv.split("").map(x=>LV[x]).join(", "))}${row("Funding",r=>r.fund==="Full"?"Fully funded":r.fund)}
+   ${row("Covers",r=>esc(r.cov))}${row("GPA",r=>`${r.gpa.toFixed(2)} (${r.gb==="O"?"official":"typical"})${MYGPA!=null?(MYGPA>=r.gpa?" ✓":" ✗"):""}`)}
+   ${row("Deadline",r=>{const d=dlInfo(r);return esc(d.txt+" · "+d.sub)})}${row("Who can apply",r=>r.who.map(w=>esc(WHO[w])).join(", "))}
+   ${row("Language",r=>esc(r.lang))}${row("Faculties",r=>r.fields.includes("ALL")?"All faculties":r.fields.map(x=>esc(FACN[x])).join(", "))}
+   ${row("Website",r=>`<a href="${esc(r.url)}" target="_blank" rel="noopener">Official site</a>`)}</tbody></table></div>`;
+}
+$("trayGo").onclick=()=>{renderCmp();$("cmpWrap").scrollIntoView()};
+$("trayClear").onclick=()=>{cmp.clear();updateTray();renderCmp()};
+
+/* ---------- my plan ---------- */
+const STATUSES=["Not started","Preparing","Submitted","Interview","Won","Rejected"];
+let status=store.get("sa-status",{});
+function renderPlan(){
+  const rs=[...saved].map(byId).filter(Boolean).sort((a,b)=>nextDL(a)-nextDL(b));
+  $("kSaved").textContent=rs.length;
+  const open=rs.filter(r=>!dlInfo(r).closed&&!["Submitted","Interview","Won","Rejected"].includes(status[r.id]));
+  $("kNext").textContent=open.length?Math.max(0,dlInfo(open[0]).days):"–";
+  $("kSub").textContent=rs.filter(r=>["Submitted","Interview","Won","Rejected"].includes(status[r.id])).length;
+  $("kWon").textContent=rs.filter(r=>status[r.id]==="Won").length;
+  $("planBody").innerHTML=rs.length?rs.map(r=>{const d=dlInfo(r),s=status[r.id]||"Not started";
+    return `<tr><td><b>${esc(r.name)}</b><div class="small">${esc(r.country)} · ${r.fund==="Full"?"Fully funded":r.fund}</div></td>
+      <td><span class="days ${d.cls}">${d.txt}</span><div class="small">${esc(d.sub)}</div></td><td>${r.gpa.toFixed(2)}</td>
+      <td><select data-status="${r.id}" class="st-${s.replace(" ","")}" aria-label="Status">${STATUSES.map(x=>`<option${x===s?" selected":""}>${x}</option>`).join("")}</select></td>
+      <td style="white-space:nowrap"><button class="act" type="button" data-ics="${r.id}">📅</button> <button class="act" type="button" data-unsave="${r.id}" aria-label="Remove">✕</button></td></tr>`}).join("")
+    :`<tr><td colspan="5" class="small" style="padding:18px">Your list is empty. Open any scholarship above and click ☆ Add to shortlist, then track it here.</td></tr>`;
+}
+$("planBody").addEventListener("change",e=>{const s=e.target.closest("[data-status]");if(!s)return;status[s.dataset.status]=s.value;store.set("sa-status",status);s.className="st-"+s.value.replace(" ","");renderPlan()});
+$("planBody").addEventListener("click",e=>{const i=e.target.closest("[data-ics]");if(i){downloadICS([byId(+i.dataset.ics)]);return}
+  const u=e.target.closest("[data-unsave]");if(u){saved.delete(+u.dataset.unsave);store.set("sa-saved",[...saved]);renderPlan();render()}});
+$("icsAll").onclick=()=>{const rs=[...saved].map(byId);if(!rs.length){$("shareMsg").textContent="Save some scholarships first.";return}downloadICS(rs)};
+$("shareBtn").onclick=async()=>{
+  if(!saved.size){$("shareMsg").textContent="Save some scholarships first.";return}
+  const url=location.origin+location.pathname+"#shortlist="+[...saved].join(".");
+  try{await navigator.clipboard.writeText(url);$("shareMsg").textContent="Link copied. Paste it to a friend."}
+  catch(e){$("shareMsg").textContent=url}
+};
+
+/* ---------- shared lists ---------- */
+let onlyIds=null;
+function readShared(){
+  const m=location.hash.match(/^#shortlist=([\d.]+)/);if(!m)return;
+  const ids=m[1].split(".").map(Number).filter(id=>byId(id));if(!ids.length)return;
+  $("sharedBanner").hidden=false;$("sharedTxt").innerHTML=`A friend shared <b>${ids.length}</b> scholarship${ids.length>1?"s":""} with you.`;
+  $("sharedShow").onclick=()=>{onlyIds=new Set(ids);$("tOpen").checked=false;$("tMeet").checked=false;setFac("");$("q").value="";reset();$("browse").scrollIntoView()};
+  $("sharedAdd").onclick=()=>{ids.forEach(id=>saved.add(id));store.set("sa-saved",[...saved]);renderPlan();render();$("sharedAdd").textContent="Added ✓";$("plan").scrollIntoView()};
+}
+
+/* ---------- countries ---------- */
+const CTRY=[
+ // name, region, tuition (public, intl, per year), living per month (approx USD), work while studying, post-study stay, psw months, language, note
+ ["Australia","Oceania","AUD 30,000–50,000","1,900","48 hours per fortnight in term","Temporary Graduate visa: 2–3 years (varies by degree)",30,"English","Visa needs proof of ~AUD 29,700/yr for living costs."],
+ ["Belgium","Europe","~EUR 1,000–12,000 (lower in Wallonia)","1,100","20 hours/week in term","Up to 12 months to look for work",12,"Dutch, French, English","Fees in Flanders are higher for non-EU students."],
+ ["Canada","North America","CAD 20,000–45,000","1,500","24 hours/week off campus in term","Post-Graduation Work Permit up to 3 years (field rules apply)",36,"English, French","Québec has its own rules and some fee exemptions."],
+ ["China","East Asia","CNY 20,000–40,000","700","Only with university and police approval","Limited; you need a job offer for a work visa",0,"Chinese, English","CSC scholarships cover most international students."],
+ ["France","Europe","EUR 2,895 (bachelor) / 3,941 (master); many exemptions","1,100","964 hours per year","1-year temporary permit to look for work or start a business",12,"French, English","Public universities often reduce fees for international students."],
+ ["Germany","Europe","Mostly free (semester fee ~EUR 150–400; some states charge)","1,150","140 full or 280 half days per year","18-month job-seeker permit",18,"German, English","Visa needs a blocked account of about EUR 11,900 per year."],
+ ["Hong Kong","East Asia","HKD 145,000–200,000","1,400","Limited on-campus work","IANG visa: 2 years to stay and work",24,"English, Chinese","High living costs, especially housing."],
+ ["Hungary","Europe","EUR 3,000–10,000","750","Up to 24 hours/week in term","Up to 9 months to look for work",9,"Hungarian, English","Stipendium Hungaricum covers many students."],
+ ["Ireland","Europe","EUR 10,000–25,000","1,500","20 hours/week in term","Stamp 1G: 1–2 years",24,"English","Housing is expensive in Dublin."],
+ ["Italy","Europe","EUR 1,000–4,000 (income-based)","950","20 hours/week","12-month permit to look for work",12,"Italian, English","Regional DSU grants can cover fees and housing."],
+ ["Japan","East Asia","~JPY 536,000 at national universities (+ admission fee)","1,000","28 hours/week with permission","Job-hunting visa up to 1 year",12,"Japanese, English","MEXT covers tuition for scholars."],
+ ["Netherlands","Europe","EUR 12,000–20,000+","1,300","16 hours/week (or full-time in summer)","Orientation year: 12 months",12,"Dutch, English","Most master's programmes are taught in English."],
+ ["New Zealand","Oceania","NZD 25,000–45,000 (PhD: domestic fees)","1,400","20–25 hours/week in term","Post-study work visa: 1–3 years",36,"English","PhD students pay local fees, so a PhD is affordable."],
+ ["Qatar","Middle East","Often fully covered by scholarships","1,300","Limited","You need a job offer",0,"Arabic, English","Tax-free salaries if you find work."],
+ ["Saudi Arabia","Middle East","Free for scholarship holders","800","Limited","You need a job offer",0,"Arabic, English","Government scholarships include housing and a stipend."],
+ ["Singapore","Southeast Asia","SGD 17,000–40,000 (tuition grant with a work bond)","1,400","16 hours/week in term","Long-Term Visit Pass: about 1 year",12,"English","The tuition grant requires working in Singapore for 3 years after."],
+ ["South Korea","East Asia","KRW 5–12 million per year","900","20–25 hours/week (depends on Korean level)","D-10 job-seeking visa up to 2 years",24,"Korean, English","TOPIK level affects your work hours."],
+ ["Spain","Europe","EUR 1,000–4,000 at public universities","1,000","30 hours/week","12 months to look for work",12,"Spanish, English","Low living costs outside Madrid and Barcelona."],
+ ["Sweden","Europe","SEK 80,000–295,000","1,000","No fixed limit if studies go well","12 months to look for work",12,"Swedish, English","PhD positions are paid jobs."],
+ ["Switzerland","Europe","CHF 1,000–4,000","2,100","15 hours/week in term","6 months to look for work",6,"German, French, Italian, English","Low tuition but very high living costs."],
+ ["Türkiye","Middle East","~USD 300–3,000 at public universities","500","Needs a work permit","Residence permit possible; you need a job offer to work",0,"Turkish, English","Türkiye Bursları covers tuition, housing and a stipend."],
+ ["UAE","Middle East","AED 40,000–100,000","1,500","Part-time on campus (with approval)","Top graduates can get long-term visas",12,"English, Arabic","Some universities give a full scholarship plus stipend."],
+ ["UK","Europe","GBP 15,000–38,000","1,600","20 hours/week in term","Graduate Route: 18 months to 2 years (being shortened to 18 months)",18,"English","Most master's degrees take 1 year, which saves money."],
+ ["USA","North America","USD 25,000–60,000 (PhDs usually funded)","1,800","20 hours/week on campus","OPT: 12 months (+24 months for STEM)",36,"English","Funded PhDs pay tuition and a stipend."],
+];
+function renderCountries(){
+  const s=$("cSort").value;let list=[...CTRY];
+  if(s==="live")list.sort((a,b)=>+a[3].replace(/,/g,"")-+b[3].replace(/,/g,""));else if(s==="psw")list.sort((a,b)=>b[6]-a[6]);else list.sort((a,b)=>a[0].localeCompare(b[0]));
+  $("ctryGrid").innerHTML=list.map(c=>{const n=DATA.filter(r=>r.country===c[0]).length;
+    return `<div class="cc"><h3>${esc(c[0])}<small>~USD ${c[3]}/month</small></h3><dl>
+     <dt>Tuition</dt><dd>${esc(c[2])}</dd><dt>Work</dt><dd>${esc(c[4])}</dd><dt>After you graduate</dt><dd>${esc(c[5])}</dd><dt>Languages</dt><dd>${esc(c[7])}</dd></dl>
+     <div class="small">${esc(c[8])}</div>${n?`<button class="go" type="button" data-country="${esc(c[0])}">See ${n} scholarships in ${esc(c[0])} →</button>`:""}</div>`}).join("");
+}
+$("cSort").addEventListener("change",renderCountries);
+$("ctryGrid").addEventListener("click",e=>{const b=e.target.closest("[data-country]");if(!b)return;$("q").value=b.dataset.country;setFac("");$("fRegion").value="";$("tMeet").checked=false;reset();$("browse").scrollIntoView()});
+
+/* ---------- letter builder ---------- */
+const EF=["e1","e2","e3","e4","e5","e6","e7","e8"];
+function buildLetter(){
+  const v=Object.fromEntries(EF.map(k=>[k,($(k).value||"").trim()]));store.set("sa-essay",v);
+  const ph=(x,p)=>x||`[${p}]`;
+  ["e7","e8"].forEach(k=>{if(v[k])v[k]=v[k].replace(/^(I |to )/i,"").replace(/^./,c=>c.toLowerCase())});
+  const t=`Dear Selection Committee,
+
+${ph(v.e3,"Open with the real problem you saw")} That experience is why I chose my field, and it is why I am applying for the ${ph(v.e1,"programme and university")} with the support of the ${ph(v.e2,"scholarship name")}.
+
+During my studies I worked on ${ph(v.e4,"your strongest project or work experience")}. It taught me how to turn classroom knowledge into results that matter to real people, and it gave me practical skills in ${ph(v.e5,"two or three skills")}.
+
+I am applying to this programme because of ${ph(v.e6,"specific courses, professors or labs")}. These match exactly the gap I need to fill to work on the problem I described above.
+
+Outside the classroom, I ${ph(v.e8,"leadership or community work")}. This showed me that I can lead people and create change with limited resources.
+
+After graduating, my goal is to ${ph(v.e7,"your goal after the degree")}. This scholarship would let me focus fully on my studies and bring what I learn back to the people who need it most.
+
+Thank you for considering my application.
+
+Sincerely,
+[Your name]`;
+  $("eText").textContent=t;$("eWords").textContent=t.split(/\s+/).filter(Boolean).length+" words";
+}
+EF.forEach(k=>$(k).addEventListener("input",buildLetter));
+$("eCopy").onclick=async()=>{try{await navigator.clipboard.writeText($("eText").textContent);$("eMsg").textContent="Copied."}catch(e){const r=document.createRange();r.selectNodeContents($("eText"));const s=getSelection();s.removeAllRanges();s.addRange(r);$("eMsg").textContent="Selected. Press Ctrl+C to copy."}};
+(()=>{const v=store.get("sa-essay",null);if(v)EF.forEach(k=>{if(v[k])$(k).value=v[k]});buildLetter()})();
 $("facGrid").addEventListener("click",e=>{const b=e.target.closest(".fac");if(!b)return;setFac(b.dataset.f);$("mFac").value=b.dataset.f;matcherCount();reset();$("browse").scrollIntoView()});
 $("soonGrid").addEventListener("click",e=>{const c=e.target.closest(".sc");if(!c)return;$("q").value=c.dataset.q;setFac("");$("tMeet").checked=false;$("fRegion").value="";reset();$("browse").scrollIntoView()});
 
@@ -502,6 +761,6 @@ fetch("scholarships.json").then(r=>r.json()).then(d=>{
   const soon=d.map(r=>({r,i:dlInfo(r)})).filter(x=>!x.i.closed).sort((a,b)=>a.i.days-b.i.days).slice(0,8);
   $("soonGrid").innerHTML=soon.map(({r,i})=>`<div class="sc" role="button" tabindex="0" data-q="${esc(r.name.split(/[–(]/)[0].trim())}"><span class="days ${i.cls}">${i.txt}</span><h3>${esc(r.name)}</h3><span class="c">${esc(r.country)} · ${r.fund==="Full"?"Fully funded":"Partial"} · GPA ${r.gpa.toFixed(1)}</span></div>`).join("");
   if(mm&&mm.f)setFac("");
-  matcherCount();render();
+  matcherCount();render();renderPlan();renderCountries();readShared();
 }).catch(()=>{$("count").textContent="Could not load the scholarship list. Reload the page to try again."});
 </script>
