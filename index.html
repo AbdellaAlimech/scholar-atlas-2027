@@ -252,208 +252,209 @@ footer b{color:var(--ink)}
   footer .wrap{grid-template-columns:1fr}
 }
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.fac{transition:none}}
+
+/* language switcher */
+.langs{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;flex:none}
+.langs button{font:inherit;font-size:12.5px;font-weight:600;padding:5px 10px;border:0;background:transparent;color:var(--muted);cursor:pointer}
+.langs button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
 </style>
 
 <div class="stole" id="stole" aria-hidden="true"></div>
 <nav class="top"><div class="wrap">
   <a class="brand" href="#top">Scholar Atlas <span>2027</span></a>
-  <a class="l" href="#match">GPA match</a><a class="l" href="#faculties">Faculties</a><a class="l" href="#closing">Closing soon</a>
-  <a class="l" href="#browse">All scholarships</a><a class="l" href="#plan">My plan</a><a class="l" href="#countries">Countries</a><a class="l" href="#essay">Letter builder</a><a class="l" href="#path">Timeline</a><a class="l" href="#gpa">GPA guide</a><a class="l" href="#tips">Tips</a>
+  <span class="langs" role="group" aria-label="Language"><button type="button" data-lang="en">EN</button><button type="button" data-lang="fr">FR</button><button type="button" data-lang="tr">TR</button></span>
+  <a class="l" href="#match" data-t="navMatch"></a><a class="l" href="#faculties" data-t="navFac"></a><a class="l" href="#closing" data-t="navSoon"></a>
+  <a class="l" href="#browse" data-t="navAll"></a><a class="l" href="#plan" data-t="navPlan"></a><a class="l" href="#countries" data-t="navCtry"></a><a class="l" href="#essay" data-t="navEssay"></a>
+  <a class="l" href="#path" data-t="navPath"></a><a class="l" href="#gpa" data-t="navGpa"></a><a class="l" href="#tips" data-t="navTips"></a>
 </div></nav>
 
 <header class="hero" id="top"><div class="wrap">
   <div>
-    <div class="kicker">Class of 2027 · every faculty · every country</div>
-    <h1>Find the scholarships your <em>GPA</em> can win.</h1>
-    <p class="lead">Government, university and foundation scholarships for bachelor's, master's and PhD study in 40+ countries. Enter your grade on any scale and see which ones you meet, sorted by deadline.</p>
+    <div class="kicker" data-t="kicker"></div>
+    <h1 data-th="h1"></h1>
+    <p class="lead" data-t="lead"></p>
     <div class="facts">
-      <div><b id="fTotal">382</b><span>scholarships</span></div>
-      <div><b id="fFull">–</b><span>fully funded</span></div>
-      <div><b>15</b><span>faculties</span></div>
-      <div><b id="fOpen">–</b><span>still open for 2027</span></div>
+      <div><b id="fTotal">382</b><span data-t="fScholar"></span></div>
+      <div><b id="fFull">–</b><span data-t="fFull"></span></div>
+      <div><b>15</b><span data-t="fFac"></span></div>
+      <div><b id="fOpen">–</b><span data-t="fOpen"></span></div>
     </div>
   </div>
   <form class="matcher" id="match" onsubmit="event.preventDefault();goBrowse()">
-    <h2>Your GPA match</h2>
-    <p class="s">Grades are converted to a 4.0 scale so you can compare. Your answers stay in this browser.</p>
+    <h2 data-t="mTitle"></h2>
+    <p class="s" data-t="mSub"></p>
     <div class="mgrid">
-      <div class="fld" style="grid-column:1/-1"><label for="gpaIn">My grade</label>
-        <div class="gparow"><input id="gpaIn" type="number" step="0.01" min="0" value="3.4" aria-label="Grade value">
-          <select id="scale" aria-label="Grading scale">
-            <option value="4">out of 4.0</option><option value="4.3">out of 4.3</option><option value="4.5">out of 4.5</option><option value="5">out of 5.0</option>
-            <option value="10">out of 10</option><option value="20">out of 20 (France, francophone Africa)</option><option value="100">percent (%)</option><option value="uk">UK class (1 = First, 2 = 2:1, 3 = 2:2)</option>
+      <div class="fld" style="grid-column:1/-1"><label for="gpaIn" data-t="mGrade"></label>
+        <div class="gparow"><input id="gpaIn" type="number" step="0.01" min="0" value="3.4">
+          <select id="scale" aria-label="Scale">
+            <option value="4" data-t="sc4"></option><option value="4.3" data-t="sc43"></option><option value="4.5" data-t="sc45"></option><option value="5" data-t="sc5"></option>
+            <option value="10" data-t="sc10"></option><option value="20" data-t="sc20"></option><option value="100" data-t="sc100"></option><option value="uk" data-t="scUK"></option>
           </select></div>
         <div class="conv" id="convOut"></div></div>
-      <div class="fld"><label for="mLevel">I want to study</label><select id="mLevel"><option value="">Any level</option><option value="B">Bachelor's</option><option value="M" selected>Master's</option><option value="P">PhD</option></select></div>
-      <div class="fld"><label for="mFrom">I'm from</label><select id="mFrom"><option value="">Anywhere</option><option>Africa</option><option>Asia</option><option>Latin America &amp; Caribbean</option><option>Middle East &amp; North Africa</option><option>Europe</option><option>North America</option><option>Oceania</option></select></div>
-      <div class="fld" style="grid-column:1/-1"><label for="mFac">My faculty</label><select id="mFac"><option value="">Any faculty</option></select></div>
+      <div class="fld"><label for="mLevel" data-t="mLevel"></label><select id="mLevel"><option value="" data-t="anyLevel"></option><option value="B" data-t="B"></option><option value="M" data-t="M" selected></option><option value="P" data-t="P"></option></select></div>
+      <div class="fld"><label for="mFrom" data-t="mFrom"></label><select id="mFrom" class="fromSel"><option value="" data-t="anywhere"></option></select></div>
+      <div class="fld" style="grid-column:1/-1"><label for="mFac" data-t="mFac"></label><select id="mFac"><option value="" data-t="anyFac"></option></select></div>
     </div>
-    <div class="result"><div class="big" id="mCount">–</div><div class="txt" id="mTxt">scholarships you meet</div><button class="btn" type="submit">Show my matches</button></div>
+    <div class="result"><div class="big" id="mCount">–</div><div class="txt" id="mTxt"></div><button class="btn" type="submit" data-t="mBtn"></button></div>
   </form>
 </div></header>
 
 <main>
-<div class="wrap" id="sharedBanner" hidden><div class="banner"><p id="sharedTxt"></p><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" type="button" id="sharedShow">Show them</button><button class="btn ghost" type="button" id="sharedAdd">Add to my shortlist</button></div></div></div>
+<div class="wrap" id="sharedBanner" hidden><div class="banner"><p id="sharedTxt"></p><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" type="button" id="sharedShow" data-t="sharedShow"></button><button class="btn ghost" type="button" id="sharedAdd" data-t="sharedAdd"></button></div></div></div>
+
 <section id="faculties"><div class="wrap">
-  <div class="sh"><div><div class="kicker">Faculties</div><h2>Pick your faculty</h2></div><p>Counts include scholarships open to all fields. Click a faculty to filter the list.</p></div>
+  <div class="sh"><div><div class="kicker" data-t="facKicker"></div><h2 data-t="facTitle"></h2></div><p data-t="facDesc"></p></div>
   <div class="facs" id="facGrid"></div>
-  <p class="hoodnote">Each faculty uses its traditional academic hood colour, the colour graduates wear at ceremonies. Computer science has no traditional colour, so it gets slate.</p>
+  <p class="hoodnote" data-t="hoodNote"></p>
 </div></section>
 
 <section id="closing"><div class="wrap">
-  <div class="sh"><div><div class="kicker">Deadlines</div><h2>Closing soon</h2></div><p>The next deadlines for a 2027 start, counted from today. Dates are approximate, so confirm on the official site.</p></div>
+  <div class="sh"><div><div class="kicker" data-t="soonKicker"></div><h2 data-t="soonTitle"></h2></div><p data-t="soonDesc"></p></div>
   <div class="soon" id="soonGrid"></div>
 </div></section>
 
 <section id="browse"><div class="wrap">
-  <div class="sh"><div><div class="kicker">Register</div><h2>All scholarships</h2></div><p>Sort by GPA or deadline, filter by faculty, level and region, and save a shortlist.</p></div>
+  <div class="sh"><div><div class="kicker" data-t="regKicker"></div><h2 data-t="regTitle"></h2></div><p data-t="regDesc"></p></div>
   <div class="reg">
     <div class="filters">
       <div class="f1">
-        <input id="q" type="search" placeholder="Search: Erasmus, medicine, Japan, women, stipend…" aria-label="Search">
-        <select id="sort" aria-label="Sort by">
-          <option value="match">Sort: best match for my GPA</option><option value="dl">Sort: deadline (soonest)</option>
-          <option value="gpaAsc">Sort: GPA needed (lowest first)</option><option value="gpaDesc">Sort: GPA needed (highest first)</option><option value="name">Sort: A–Z</option>
-        </select>
-        <select id="fRegion" aria-label="Study destination"><option value="">All destinations</option></select>
-        <select id="fLevel" aria-label="Level"><option value="">All levels</option><option value="B">Bachelor's</option><option value="M">Master's</option><option value="P">PhD</option></select>
-        <select id="fFrom" aria-label="Where you are from"><option value="">From anywhere</option><option>Africa</option><option>Asia</option><option>Latin America &amp; Caribbean</option><option>Middle East &amp; North Africa</option><option>Europe</option><option>North America</option><option>Oceania</option></select>
+        <input id="q" type="search" data-tp="search" aria-label="Search">
+        <select id="sort" aria-label="Sort"><option value="match" data-t="sMatch"></option><option value="dl" data-t="sDl"></option><option value="gpaAsc" data-t="sGpaAsc"></option><option value="gpaDesc" data-t="sGpaDesc"></option><option value="name" data-t="sName"></option></select>
+        <select id="fRegion" aria-label="Destination"><option value="" data-t="allDest"></option></select>
+        <select id="fLevel" aria-label="Level"><option value="" data-t="allLevels"></option><option value="B" data-t="B"></option><option value="M" data-t="M"></option><option value="P" data-t="P"></option></select>
+        <select id="fFrom" class="fromSel" aria-label="From"><option value="" data-t="fromAnywhere"></option></select>
       </div>
-      <div class="chips" id="facChips"><span class="lab">Faculty</span></div>
+      <div class="chips" id="facChips"></div>
       <div class="toggles">
-        <label><input type="checkbox" id="tMeet"> Only ones my GPA meets</label>
-        <label><input type="checkbox" id="tFull"> Fully funded only</label>
-        <label><input type="checkbox" id="tOpen" checked> Hide rounds already closed for 2027</label>
-        <label><input type="checkbox" id="tSaved"> My shortlist</label>
+        <label><input type="checkbox" id="tMeet"> <span data-t="tMeet"></span></label>
+        <label><input type="checkbox" id="tFull"> <span data-t="tFull"></span></label>
+        <label><input type="checkbox" id="tOpen" checked> <span data-t="tOpen"></span></label>
+        <label><input type="checkbox" id="tSaved"> <span data-t="tSaved"></span></label>
       </div>
     </div>
-    <div class="bar2"><span id="count">Loading…</span><span id="myg"></span></div>
+    <div class="bar2"><span id="count" data-t="loading"></span><span id="myg"></span></div>
     <div id="list"></div>
-    <div class="loadmore"><button class="btn ghost" id="more" type="button" hidden>Show more</button></div>
+    <div class="loadmore"><button class="btn ghost" id="more" type="button" hidden></button></div>
   </div>
 </div></section>
 
 <section id="plan"><div class="wrap">
-  <div class="sh"><div><div class="kicker">My plan</div><h2>Track your applications</h2></div><p>Everything you save with ☆ appears here, sorted by deadline. Set a status for each, add deadlines to your calendar, and share your list with a friend.</p></div>
+  <div class="sh"><div><div class="kicker" data-t="planKicker"></div><h2 data-t="planTitle"></h2></div><p data-t="planDesc"></p></div>
   <div class="plan-top">
-    <div class="kpi"><b id="kSaved">0</b><span>saved scholarships</span></div>
-    <div class="kpi"><b id="kNext">–</b><span>days to your next deadline</span></div>
-    <div class="kpi"><b id="kSub">0</b><span>submitted</span></div>
-    <div class="kpi"><b id="kWon">0</b><span>won</span></div>
+    <div class="kpi"><b id="kSaved">0</b><span data-t="kSaved"></span></div>
+    <div class="kpi"><b id="kNext">–</b><span data-t="kNext"></span></div>
+    <div class="kpi"><b id="kSub">0</b><span data-t="kSub"></span></div>
+    <div class="kpi"><b id="kWon">0</b><span data-t="kWon"></span></div>
   </div>
   <div class="plan-actions">
-    <button class="btn" type="button" id="icsAll">Add all deadlines to my calendar</button>
-    <button class="btn ghost" type="button" id="shareBtn">Copy a link to share my list</button>
+    <button class="btn" type="button" id="icsAll" data-t="icsAll"></button>
+    <button class="btn ghost" type="button" id="shareBtn" data-t="share"></button>
     <span class="small" id="shareMsg" role="status"></span>
   </div>
-  <div class="ptable"><table><thead><tr><th>Scholarship</th><th>Deadline</th><th>GPA</th><th>Status</th><th></th></tr></thead><tbody id="planBody"></tbody></table></div>
+  <div class="ptable"><table><thead><tr><th data-t="thS"></th><th data-t="thD"></th><th data-t="thG"></th><th data-t="thSt"></th><th></th></tr></thead><tbody id="planBody"></tbody></table></div>
   <div id="cmpWrap"></div>
 </div></section>
 
 <section id="countries"><div class="wrap">
-  <div class="sh"><div><div class="kicker">Country guide</div><h2>Cost, work and life after graduation</h2></div><p>Approximate figures for international students in 2026: public tuition, living costs, how much you may work while studying, and how long you may stay to look for a job after graduating. Rules change often, so check the official immigration site.</p></div>
-  <div class="ctry-tools">
-    <select id="cSort" aria-label="Sort countries"><option value="name">Sort: A–Z</option><option value="live">Sort: lowest living cost</option><option value="psw">Sort: longest post-study stay</option></select>
-  </div>
+  <div class="sh"><div><div class="kicker" data-t="ctryKicker"></div><h2 data-t="ctryTitle"></h2></div><p data-t="ctryDesc"></p></div>
+  <div class="ctry-tools"><select id="cSort" aria-label="Sort countries"><option value="name" data-t="cSortName"></option><option value="live" data-t="cSortLive"></option><option value="psw" data-t="cSortPsw"></option></select></div>
   <div class="ctry" id="ctryGrid"></div>
 </div></section>
 
 <section id="essay"><div class="wrap">
-  <div class="sh"><div><div class="kicker">Letter builder</div><h2>Draft your motivation letter</h2></div><p>Answer a few questions and get a structured first draft that follows the shape committees expect. Then rewrite it in your own voice; never send a template as is.</p></div>
+  <div class="sh"><div><div class="kicker" data-t="essKicker"></div><h2 data-t="essTitle"></h2></div><p data-t="essDesc"></p></div>
   <div class="essay">
     <form class="eform" id="eform" onsubmit="event.preventDefault()">
-      <div class="fld"><label for="e1">Programme and university you're applying to</label><input id="e1" placeholder="MSc Renewable Energy, TU Delft"></div>
-      <div class="fld"><label for="e2">Scholarship name</label><input id="e2" placeholder="Erasmus Mundus / DAAD / Chevening…"></div>
-      <div class="fld"><label for="e3">A real problem you saw that made you choose this field</label><textarea id="e3" rows="2" placeholder="Power cuts in my town stopped the hospital's equipment for hours."></textarea></div>
-      <div class="fld"><label for="e4">Your strongest project, research or work experience</label><textarea id="e4" rows="2" placeholder="Final-year project: a solar-powered water pump for a village of 400 people."></textarea></div>
-      <div class="fld"><label for="e5">Two or three skills you bring</label><input id="e5" placeholder="MATLAB, field surveys, leading a student team of 12"></div>
-      <div class="fld"><label for="e6">Why this programme specifically (courses, professors, labs)</label><textarea id="e6" rows="2" placeholder="The course in grid integration and Prof. X's lab on mini-grids."></textarea></div>
-      <div class="fld"><label for="e7">Your goal after the degree</label><textarea id="e7" rows="2" placeholder="Return home to design mini-grids for rural clinics with the national energy agency."></textarea></div>
-      <div class="fld"><label for="e8">Leadership or community work</label><input id="e8" placeholder="Founded a free maths tutoring club for 60 secondary students"></div>
+      <div class="fld"><label for="e1" data-t="e1"></label><input id="e1" data-tp="p1"></div>
+      <div class="fld"><label for="e2" data-t="e2"></label><input id="e2" data-tp="p2"></div>
+      <div class="fld"><label for="e3" data-t="e3"></label><textarea id="e3" rows="2" data-tp="p3"></textarea></div>
+      <div class="fld"><label for="e4" data-t="e4"></label><textarea id="e4" rows="2" data-tp="p4"></textarea></div>
+      <div class="fld"><label for="e5" data-t="e5"></label><input id="e5" data-tp="p5"></div>
+      <div class="fld"><label for="e6" data-t="e6"></label><textarea id="e6" rows="2" data-tp="p6"></textarea></div>
+      <div class="fld"><label for="e7" data-t="e7"></label><textarea id="e7" rows="2" data-tp="p7"></textarea></div>
+      <div class="fld"><label for="e8" data-t="e8"></label><input id="e8" data-tp="p8"></div>
     </form>
     <div class="eout">
       <pre id="eText"></pre>
-      <div class="row"><button class="btn" type="button" id="eCopy">Copy draft</button><span class="small" id="eWords"></span><span class="small" id="eMsg" role="status"></span></div>
+      <div class="row"><button class="btn" type="button" id="eCopy" data-t="eCopy"></button><span class="small" id="eWords"></span><span class="small" id="eMsg" role="status"></span></div>
     </div>
   </div>
 </div></section>
 
 <section id="path"><div class="wrap">
-  <div class="sh"><div><div class="kicker">Class of 2027</div><h2>Your application year</h2></div><p>Most deadlines for a September 2027 start fall between November 2026 and March 2027. The gold card marks where you are now.</p></div>
+  <div class="sh"><div><div class="kicker" data-t="pathKicker"></div><h2 data-t="pathTitle"></h2></div><p data-t="pathDesc"></p></div>
   <div class="tl" id="tl"></div>
 </div></section>
 
 <section id="gpa"><div class="wrap">
-  <div class="sh"><div><div class="kicker">GPA guide</div><h2>How grades compare</h2></div><p>An approximate guide. Every university and scholarship converts grades its own way, so always use the official rules for the final check.</p></div>
+  <div class="sh"><div><div class="kicker" data-t="gpaKicker"></div><h2 data-t="gpaTitle"></h2></div><p data-t="gpaDesc"></p></div>
   <div class="guide">
     <div class="tblwrap"><table class="conv">
-      <thead><tr><th>4.0 scale</th><th>Percent</th><th>Out of 20</th><th>Out of 10</th><th>UK class</th></tr></thead>
+      <thead><tr><th data-t="g40"></th><th data-t="gPct"></th><th data-t="g20"></th><th data-t="g10"></th><th data-t="gUK"></th></tr></thead>
       <tbody>
-        <tr><td>4.0</td><td>90+</td><td>16+</td><td>9+</td><td>First</td></tr>
-        <tr><td>3.7</td><td>85</td><td>14</td><td>8.5</td><td>First / high 2:1</td></tr>
+        <tr><td>4.0</td><td>90+</td><td>16+</td><td>9+</td><td data-t="ukFirst"></td></tr>
+        <tr><td>3.7</td><td>85</td><td>14</td><td>8.5</td><td data-t="ukHigh"></td></tr>
         <tr><td>3.3</td><td>80</td><td>13</td><td>7.7</td><td>2:1</td></tr>
-        <tr><td>3.0</td><td>75</td><td>12</td><td>7</td><td>Low 2:1</td></tr>
-        <tr><td>2.7</td><td>70</td><td>11</td><td>6.4</td><td>2:2</td></tr>
-        <tr><td>2.3</td><td>65</td><td>10</td><td>5.8</td><td>Low 2:2</td></tr>
-        <tr><td>2.0</td><td>60</td><td>9.5</td><td>5</td><td>Third</td></tr>
+        <tr><td>3.0</td><td>75</td><td>12</td><td>7</td><td data-t="ukLow21"></td></tr>
+        <tr><td>2.7</td><td>70</td><td>11</td><td>6.4</td><td data-t="uk22"></td></tr>
+        <tr><td>2.3</td><td>65</td><td>10</td><td>5.8</td><td data-t="ukLow22"></td></tr>
+        <tr><td>2.0</td><td>60</td><td>9.5</td><td>5</td><td data-t="ukThird"></td></tr>
       </tbody></table></div>
     <div class="bands">
-      <div class="band"><b>Official minimum</b><p>The scholarship publishes this threshold, for example GKS (80% or 2.64/4), Türkiye Bursları (70% / 75% / 80%), ETH (top 10%). Below it, you can't apply.</p></div>
-      <div class="band"><b>Typical competitive GPA</b><p>No official minimum is published, so this shows the profile that usually wins (an estimate). You can still apply below it if the rest of your file is strong.</p></div>
-      <div class="band"><b>GPA isn't everything</b><p>Research, leadership, a strong essay and good references often outweigh a few tenths of a GPA point.</p></div>
+      <div class="band"><b data-t="b1t"></b><p data-t="b1"></p></div>
+      <div class="band"><b data-t="b2t"></b><p data-t="b2"></p></div>
+      <div class="band"><b data-t="b3t"></b><p data-t="b3"></p></div>
     </div>
   </div>
 </div></section>
 
 <section id="tips"><div class="wrap">
-  <div class="sh"><div><div class="kicker">Playbook</div><h2>How to win them</h2></div><p>What committees look for, whatever your field.</p></div>
+  <div class="sh"><div><div class="kicker" data-t="tipsKicker"></div><h2 data-t="tipsTitle"></h2></div><p data-t="tipsDesc"></p></div>
   <div class="tips" id="tipGrid"></div>
 </div></section>
 </main>
 
 <footer><div class="wrap">
-  <div><b>Before you apply:</b> scholarship rules, amounts, eligible countries and dates change every year. Open the official website on each scholarship and read the current call. Never pay an agent to apply for a government scholarship; almost all of these are free to apply for.</div>
-  <div>Scholar Atlas 2027 · researched November 2026 · free to share.<br>
-  Found a wrong date or a missing scholarship? <a href="https://github.com/AbdellaAlimech/scholar-atlas-2027/issues/new" target="_blank" rel="noopener">Tell us on GitHub</a>.</div>
+  <div data-th="foot1"></div>
+  <div><span data-t="foot2"></span><br><span data-t="foot3"></span> <a href="https://github.com/AbdellaAlimech/scholar-atlas-2027/issues/new" target="_blank" rel="noopener" data-t="foot4"></a></div>
 </div></footer>
-<div class="tray" id="tray" hidden><div class="wrap"><span class="names" id="trayNames"></span><span style="display:flex;gap:8px"><button type="button" id="trayGo">Compare</button><button type="button" class="ghost" id="trayClear">Clear</button></span></div></div>
+<div class="tray" id="tray" hidden><div class="wrap"><span class="names" id="trayNames"></span><span style="display:flex;gap:8px"><button type="button" id="trayGo" data-t="trayGo"></button><button type="button" class="ghost" id="trayClear" data-t="trayClear"></button></span></div></div>
 
+<script src="i18n.js"></script>
 <script>
 const TODAY=new Date();
-const FAC=[["ENG","Engineering & Technology"],["CS","Computer Science & AI"],["SCI","Natural Sciences & Mathematics"],["MED","Medicine & Dentistry"],["HLT","Public Health, Nursing & Pharmacy"],
- ["AGR","Agriculture, Food & Veterinary"],["ENV","Environment, Energy & Earth"],["BUS","Business, Economics & Finance"],["LAW","Law & International Relations"],["SOC","Social Sciences & Public Policy"],
- ["DEV","Development Studies"],["EDU","Education"],["HUM","Humanities & Languages"],["ART","Arts, Music, Design & Architecture"],["JRN","Journalism & Media"]];
-const FACN=Object.fromEntries(FAC);
-const WHO={ALL:"Open to all nationalities",DEV:"Developing countries",AFR:"Africa",ASIA:"Asia",LATAM:"Latin America & Caribbean",COMM:"Commonwealth countries",OIC:"IsDB / OIC member countries",WOMEN:"Women",REF:"Refugees"};
-const LV={B:"Bachelor's",M:"Master's",P:"PhD"};
-const PATH=[
- ["2026-09-01","2026-10-31","Sept – Oct 2026","Early rounds","Chevening, Rhodes, Commonwealth, Knight-Hennessy and GKS undergraduate have closed for 2027. Note them for 2028."],
- ["2026-11-01","2026-12-31","Nov – Dec 2026","Peak season","US undergraduate (Jan 1) and PhD (Dec 1–15), DAAD, Eiffel nominations, HKPFS, SINGA, ETH/EPFL, Yenching, NYU Law, AAUW."],
- ["2027-01-01","2027-01-31","Jan 2027","Europe opens wide","Erasmus Mundus, Gates and Clarendon, Swedish and Finnish universities (Jan 15), Stipendium Hungaricum, IsDB, LSE and Hong Kong entrance awards."],
- ["2027-02-01","2027-03-31","Feb – Mar 2027","Asia & government schemes","Türkiye Bursları (Feb 20), GKS graduate, CSC China, Netherlands, Ireland GOI-IES, Master Mind, Pan African University, Manaaki NZ."],
- ["2027-04-01","2027-06-30","Apr – Jun 2027","Results & second chances","Offers arrive. MEXT embassy round (for 2028), Australia coursework awards, Saudi universities, Italian scholarships, Mexican and Brazilian calls."],
- ["2027-06-01","2027-08-31","Jun – Aug 2027","Graduate & prepare","Graduation, transcripts, visas, Italian DSU grants (Jul–Sept). Start building your 2028 applications if needed."],
- ["2027-08-01","2027-10-31","Aug – Oct 2027","2028 round opens","Chevening, Rhodes, Commonwealth, Knight-Hennessy, GKS undergraduate and Australian research rounds for 2028."],
- ["2027-09-01","2027-10-31","Sept – Oct 2027","Start","Begin your degree. In year one, apply for top-up awards inside your university."],
-];
-const TIPS=[
- ["Start with the deadline","Sort by deadline and work backwards. Most scholarships need 6–10 weeks to collect letters, test scores and translations."],
- ["Mind the official GPA","If a scholarship publishes a minimum, check it with the official conversion. If it only lists a typical GPA, a strong file can still win."],
- ["Tailor every essay","Name the programme's courses, professors and labs. Explain what you'll do after, and why that matters for your country or community."],
- ["Choose referees who know you","A lecturer who supervised your project writes a better letter than a famous name. Ask 6 weeks ahead and send them your CV."],
- ["Take the English test early","IELTS 7.0 or TOEFL 100 covers almost everything. Ask your university for an English Medium of Instruction letter too."],
- ["Contact professors","For research master's and PhDs (China, Japan, Korea, Canada, the US, Singapore), a supervisor's interest often decides funding."],
- ["Apply widely","Aim for 10–20 applications across 3–5 countries: a few dream options, many realistic ones and a couple of safe ones."],
- ["Show impact, not just grades","Leadership, volunteering, competitions, publications and work experience separate equal GPAs."],
- ["Never pay to apply","Government scholarships like CSC, MEXT, GKS, Türkiye Bursları, DAAD and Erasmus Mundus are free. Avoid agents who promise guaranteed awards."],
-];
+const FACS=["ENG","CS","SCI","MED","HLT","AGR","ENV","BUS","LAW","SOC","DEV","EDU","HUM","ART","JRN"];
+const FROM=[["Africa","oAfrica"],["Asia","oAsia"],["Latin America & Caribbean","oLatam"],["Middle East & North Africa","oMena"],["Europe","oEurope"],["North America","oNam"],["Oceania","oOce"]];
+const PATHD=[["2026-09-01","2026-10-31"],["2026-11-01","2026-12-31"],["2027-01-01","2027-01-31"],["2027-02-01","2027-03-31"],["2027-04-01","2027-06-30"],["2027-06-01","2027-08-31"],["2027-08-01","2027-10-31"],["2027-09-01","2027-10-31"]];
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
 const hood=c=>`var(--h-${c})`;
-$("stole").innerHTML=FAC.map(f=>`<i style="background:${hood(f[0])}"></i>`).join("");
 
-/* GPA conversion */
+/* ---------- language ---------- */
+let LANG=store.get("sa-lang",null)||((navigator.language||"en").slice(0,2).match(/fr|tr/)||["en"])[0];
+const LOC={en:"en-GB",fr:"fr-FR",tr:"tr-TR"};
+function T(k,...a){let s=(I18N[LANG]&&I18N[LANG][k]!==undefined&&I18N[LANG][k]!=="")?I18N[LANG][k]:I18N.en[k];if(typeof s!=="string")return s;return s.replace(/\{(\d)\}/g,(m,i)=>a[i]??"")}
+const facName=c=>T("fac")[c]||I18N.en.fac[c];
+const facShort=c=>T("facShort")[c]||I18N.en.facShort[c];
+const whoName=w=>T("who")[w]||I18N.en.who[w];
+const ctryName=c=>(I18N[LANG].country&&I18N[LANG].country[c])||c;
+const regName=r=>(I18N[LANG].region&&I18N[LANG].region[r])||r;
+const num=x=>x.toLocaleString(LOC[LANG],{minimumFractionDigits:2,maximumFractionDigits:2});
+const fmtDate=(d,o)=>d.toLocaleDateString(LOC[LANG],o);
+function applyStatic(){
+  document.documentElement.lang=LANG;
+  document.querySelectorAll("[data-t]").forEach(e=>e.textContent=T(e.dataset.t));
+  document.querySelectorAll("[data-th]").forEach(e=>e.innerHTML=T(e.dataset.th));
+  document.querySelectorAll("[data-tp]").forEach(e=>e.placeholder=T(e.dataset.tp));
+  document.querySelectorAll(".langs button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.lang===LANG));
+}
+
+$("stole").innerHTML=FACS.map(c=>`<i style="background:${hood(c)}"></i>`).join("");
+document.querySelectorAll(".fromSel").forEach(s=>s.insertAdjacentHTML("beforeend",FROM.map(([v,k])=>`<option value="${esc(v)}" data-t="${k}"></option>`).join("")));
+$("mFac").insertAdjacentHTML("beforeend",FACS.map(c=>`<option value="${c}" class="facOpt" data-f="${c}"></option>`).join(""));
+
+/* ---------- GPA ---------- */
 function lerp(t,x){if(x>=t[0][0])return t[0][1];for(let i=1;i<t.length;i++){if(x>=t[i][0]){const [a,ya]=t[i-1],[b,yb]=t[i];return yb+(x-b)*(ya-yb)/(a-b)}}return t[t.length-1][1]}
 function toGPA(v,s){
   if(!isFinite(v))return null;
@@ -468,17 +469,15 @@ let MYGPA=null;
 function readGPA(){
   const v=parseFloat($("gpaIn").value),s=$("scale").value;
   MYGPA=toGPA(v,s); if(MYGPA!=null)MYGPA=Math.max(0,Math.min(4,MYGPA));
-  $("convOut").innerHTML=MYGPA==null?"Enter your grade":`≈ <b>${MYGPA.toFixed(2)}</b> on a 4.0 scale (approximate)`;
-  $("myg").textContent=MYGPA==null?"":`Your GPA ≈ ${MYGPA.toFixed(2)} / 4.0`;
+  $("convOut").innerHTML=MYGPA==null?T("convEnter"):T("conv",num(MYGPA));
+  $("myg").textContent=MYGPA==null?"":T("myGpa",num(MYGPA));
   store.set("sa-gpa",{v:$("gpaIn").value,s});
 }
 function matchOf(r){if(MYGPA==null)return"";return MYGPA>=r.gpa?"ok":MYGPA>=r.gpa-0.2?"near":"no"}
 
-/* eligibility by origin */
 const DEVREG=["Africa","Asia","Latin America & Caribbean","Middle East & North Africa"];
 function fromOK(r,from){
-  if(!from)return true;
-  const w=r.who;
+  if(!from)return true;const w=r.who;
   if(w.some(x=>["ALL","WOMEN","REF","COMM","OIC"].includes(x)))return true;
   if(w.includes("AFR")&&(from==="Africa"||from==="Middle East & North Africa"))return true;
   if(w.includes("ASIA")&&(from==="Asia"||from==="Middle East & North Africa"))return true;
@@ -486,121 +485,92 @@ function fromOK(r,from){
   if(w.includes("DEV")&&DEVREG.includes(from))return true;
   return false;
 }
-/* deadlines */
 const DAY=864e5;
 function dlInfo(r){
   const d=new Date(r.dl+"T23:59:59"),days=Math.ceil((d-TODAY)/DAY);
-  const fmt=d.toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"});
-  if(days<0){const nx=new Date(d);nx.setFullYear(nx.getFullYear()+1);return{days,cls:"d-closed",txt:"Closed for 2027",sub:"Next round ~"+nx.toLocaleDateString("en-GB",{month:"short",year:"numeric"}),closed:true}}
-  if(days<=30)return{days,cls:"d-urgent",txt:days===0?"Closes today":`Closes in ${days} day${days>1?"s":""}`,sub:"~"+fmt};
-  if(days<=90)return{days,cls:"d-soon",txt:`${days} days left`,sub:"~"+fmt};
-  return{days,cls:"d-later",txt:"Opens / closes later",sub:"~"+fmt};
+  const fmt=fmtDate(d,{day:"numeric",month:"short",year:"numeric"});
+  if(days<0){const nx=new Date(d);nx.setFullYear(nx.getFullYear()+1);return{days,cls:"d-closed",txt:T("closed"),sub:T("nextRound",fmtDate(nx,{month:"short",year:"numeric"})),closed:true}}
+  if(days<=30)return{days,cls:"d-urgent",txt:days===0?T("today"):days===1?T("inDay"):T("inDays",days),sub:"~"+fmt};
+  if(days<=90)return{days,cls:"d-soon",txt:T("daysLeft",days),sub:"~"+fmt};
+  return{days,cls:"d-later",txt:T("later"),sub:"~"+fmt};
 }
 const hasFac=(r,f)=>!f||r.fields.includes("ALL")||r.fields.includes(f);
 const hasLv=(r,l)=>!l||r.lv.includes(l);
+const fundTxt=r=>r.fund==="Full"?T("full"):r.fund==="Tuition"?T("tuition"):T("partial");
+const lvTxt=r=>r.lv.split("").map(x=>T(x)).join(" · ");
 
-let DATA=[],fac="",shown=30,saved=new Set(store.get("sa-saved",[]));
+let DATA=[],fac="",shown=30,saved=new Set(store.get("sa-saved",[])),onlyIds=null;
 
 function matcherCount(){
   if(!DATA.length)return;
   const l=$("mLevel").value,f=$("mFac").value,from=$("mFrom").value;
   const pool=DATA.filter(r=>hasLv(r,l)&&hasFac(r,f)&&fromOK(r,from)&&!dlInfo(r).closed);
   const ok=pool.filter(r=>MYGPA!=null&&MYGPA>=r.gpa);
-  const soon=ok.filter(r=>dlInfo(r).days<=60).length;
   $("mCount").textContent=ok.length;
-  $("mTxt").innerHTML=`of <b>${pool.length}</b> open scholarships match your GPA. <b>${soon}</b> close in the next 60 days.`;
+  $("mTxt").innerHTML=T("mResult",pool.length,ok.filter(r=>dlInfo(r).days<=60).length);
   store.set("sa-match",{l,f,from});
 }
-function goBrowse(){
-  $("fLevel").value=$("mLevel").value; $("fFrom").value=$("mFrom").value; setFac($("mFac").value);
-  $("tMeet").checked=true; $("sort").value="match"; reset(); $("browse").scrollIntoView();
-}
+function goBrowse(){$("fLevel").value=$("mLevel").value;$("fFrom").value=$("mFrom").value;setFac($("mFac").value);$("tMeet").checked=true;$("sort").value="match";onlyIds=null;reset();$("browse").scrollIntoView()}
 
 function filtered(){
   const q=$("q").value.trim().toLowerCase(),reg=$("fRegion").value,l=$("fLevel").value,from=$("fFrom").value;
   let res=DATA.filter(r=>{
-    if(onlyIds){return onlyIds.has(r.id)}
+    if(onlyIds)return onlyIds.has(r.id);
     if(!hasFac(r,fac)||!hasLv(r,l)||!fromOK(r,from))return false;
     if(reg&&r.region!==reg)return false;
     if($("tFull").checked&&r.fund!=="Full")return false;
     if($("tOpen").checked&&dlInfo(r).closed)return false;
     if($("tSaved").checked&&!saved.has(r.id))return false;
     if($("tMeet").checked&&MYGPA!=null&&MYGPA<r.gpa)return false;
-    if(q){const h=(r.name+" "+r.country+" "+r.provider+" "+r.cov+" "+r.tips+" "+r.lang+" "+r.fields.map(f=>FACN[f]||"all fields").join(" ")+" "+r.who.map(w=>WHO[w]).join(" ")).toLowerCase();
-      if(!q.split(/\s+/).every(w=>h.includes(w)))return false}
+    if(q){const h=(r.name+" "+r.country+" "+ctryName(r.country)+" "+r.provider+" "+r.cov+" "+r.tips+" "+r.lang+" "+r.fields.map(f=>f==="ALL"?T("allFacs"):facName(f)+" "+I18N.en.fac[f]).join(" ")+" "+r.who.map(whoName).join(" ")).toLocaleLowerCase(LOC[LANG]);
+      if(!q.split(/\s+/).every(w=>h.includes(w.toLocaleLowerCase(LOC[LANG]))))return false}
     return true});
-  const s=$("sort").value, dk=r=>{const i=dlInfo(r);return i.closed?1e6+i.days*-1:i.days};
-  const fundRank=r=>r.fund==="Full"?0:1;
+  const s=$("sort").value,dk=r=>{const i=dlInfo(r);return i.closed?1e6-i.days:i.days},fr=r=>r.fund==="Full"?0:1;
   if(s==="dl")res.sort((a,b)=>dk(a)-dk(b));
   else if(s==="gpaAsc")res.sort((a,b)=>a.gpa-b.gpa||dk(a)-dk(b));
   else if(s==="gpaDesc")res.sort((a,b)=>b.gpa-a.gpa||dk(a)-dk(b));
   else if(s==="name")res.sort((a,b)=>a.name.localeCompare(b.name));
-  else{const mr={ok:0,near:1,no:2,"":0};res.sort((a,b)=>mr[matchOf(a)]-mr[matchOf(b)]||fundRank(a)-fundRank(b)||dk(a)-dk(b))}
+  else{const mr={ok:0,near:1,no:2,"":0};res.sort((a,b)=>mr[matchOf(a)]-mr[matchOf(b)]||fr(a)-fr(b)||dk(a)-dk(b))}
   return res;
 }
-const dots=r=>r.fields.includes("ALL")?`<span class="dots" title="All faculties">${FAC.map(f=>`<i style="background:${hood(f[0])};width:4px;border-radius:0;border:0;height:10px"></i>`).join("")}</span> All faculties`
-  :`<span class="dots">${r.fields.map(f=>`<i style="background:${hood(f)}" title="${esc(FACN[f])}"></i>`).join("")}</span> ${r.fields.slice(0,3).map(f=>esc(FACN[f])).join(", ")}${r.fields.length>3?" +"+(r.fields.length-3):""}`;
+const dots=r=>r.fields.includes("ALL")?`<span class="dots">${FACS.map(c=>`<i style="background:${hood(c)};width:4px;border-radius:0;border:0;height:10px"></i>`).join("")}</span> ${T("allFacs")}`
+  :`<span class="dots">${r.fields.map(f=>`<i style="background:${hood(f)}" title="${esc(facName(f))}"></i>`).join("")}</span> ${r.fields.slice(0,3).map(f=>esc(facName(f))).join(", ")}${r.fields.length>3?" +"+(r.fields.length-3):""}`;
 function gauge(r){
-  const lo=2,hi=4,p=x=>Math.max(0,Math.min(100,(x-lo)/(hi-lo)*100));
-  const m=matchOf(r);
-  const mt=m==="ok"?'<div class="match m-ok">✓ Your GPA meets this</div>':m==="near"?'<div class="match m-near">Within 0.2 of the level</div>':m==="no"?'<div class="match m-no">Below the level</div>':"";
-  return `<div class="gauge"><div class="lbl"><span>${r.gb==="O"?"Min.":"Typical"}</span><b>${r.gpa.toFixed(2)}</b></div>
-   <div class="track" title="Scale 2.0 to 4.0"><span class="req" style="width:${p(r.gpa)}%"></span>${MYGPA!=null?`<span class="me" style="left:${p(MYGPA)}%"></span>`:""}</div>${mt}</div>`;
+  const p=x=>Math.max(0,Math.min(100,(x-2)/2*100)),m=matchOf(r);
+  const mt=m==="ok"?`<div class="match m-ok">${T("meets")}</div>`:m==="near"?`<div class="match m-near">${T("near")}</div>`:m==="no"?`<div class="match m-no">${T("below")}</div>`:"";
+  return `<div class="gauge"><div class="lbl"><span>${r.gb==="O"?T("min"):T("typical")}</span><b>${num(r.gpa)}</b></div>
+   <div class="track"><span class="req" style="width:${p(r.gpa)}%"></span>${MYGPA!=null?`<span class="me" style="left:${p(MYGPA)}%"></span>`:""}</div>${mt}</div>`;
 }
+const fld=(l,v,c="")=>`<div class="f ${c}"><dt>${l}</dt><dd>${v}</dd></div>`;
 function card(r){
-  const d=dlInfo(r);
-  const who=r.who.filter(w=>w!=="ALL").map(w=>`<span class="pill who">${esc(WHO[w])}</span>`).join("");
+  const d=dlInfo(r),who=r.who.filter(w=>w!=="ALL").map(w=>`<span class="pill who">${esc(whoName(w))}</span>`).join("");
   return `<details class="s"><summary>
-   <div class="t"><h3>${esc(r.name)}</h3><div class="meta"><span>${esc(r.country)}</span><span>${r.lv.split("").map(x=>LV[x]).join(" · ")}</span>
-     <span class="pill ${r.fund==="Full"?"full":"part"}">${r.fund==="Full"?"Fully funded":r.fund==="Tuition"?"Tuition only":"Partial"}</span>${who}</div>
-     <div class="meta">${dots(r)}</div></div>
-   ${gauge(r)}
-   <div class="dl"><span class="days ${d.cls}">${d.txt}</span><div class="date">${esc(d.sub)}</div></div>
+   <div class="t"><h3>${esc(r.name)}</h3><div class="meta"><span>${esc(ctryName(r.country))}</span><span>${lvTxt(r)}</span>
+     <span class="pill ${r.fund==="Full"?"full":"part"}">${fundTxt(r)}</span>${who}</div><div class="meta">${dots(r)}</div></div>
+   ${gauge(r)}<div class="dl"><span class="days ${d.cls}">${d.txt}</span><div class="date">${esc(d.sub)}</div></div>
   </summary><dl class="body">
-   ${f("What it covers",esc(r.cov),"w2")}${f("Who can apply",r.who.map(w=>esc(WHO[w])).join(", "))}
-   ${f("GPA",`${r.gpa.toFixed(2)} / 4.0 · ${r.gb==="O"?"official minimum (converted)":"typical competitive level (estimate)"}`)}${f("Language",esc(r.lang))}${f("Application window",esc(r.win))}
-   ${f("Provider",esc(r.provider)+" · "+esc(r.type))}${f("Official website",`<a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.url.replace(/^https?:\/\//,""))}</a>`,"w2")}
-   ${f("How to win it",esc(r.tips)+(r.note?" "+esc(r.note):""),"w3 tip")}
+   ${T("enNote")?`<div class="f w3 small">${T("enNote")}</div>`:""}
+   ${fld(T("dCov"),esc(r.cov),"w2")}${fld(T("dWho"),r.who.map(w=>esc(whoName(w))).join(", "))}
+   ${fld(T("dGpa"),`${num(r.gpa)} / 4.0 · ${r.gb==="O"?T("gOff"):T("gEst")}`)}${fld(T("dLang"),esc(r.lang))}${fld(T("dWin"),esc(r.win))}
+   ${fld(T("dProv"),esc(r.provider)+" · "+esc(r.type))}${fld(T("dWeb"),`<a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.url.replace(/^https?:\/\//,""))}</a>`,"w2")}
+   ${fld(T("dTips"),esc(r.tips)+(r.note?" "+esc(r.note):""),"w3 tip")}
    <div class="acts">
-     <button class="star" type="button" data-star="${r.id}" aria-pressed="${saved.has(r.id)}">${saved.has(r.id)?"★ On my shortlist":"☆ Add to shortlist"}</button>
-     <button class="act" type="button" data-cmp="${r.id}" aria-pressed="${cmp.has(r.id)}">${cmp.has(r.id)?"✓ Comparing":"⇄ Compare"}</button>
-     <button class="act" type="button" data-ics="${r.id}">📅 Add deadline to calendar</button>
-     <a class="act" href="${gcal(r)}" target="_blank" rel="noopener">Google Calendar</a>
-   </div>
-  </dl></details>`;
+     <button class="star" type="button" data-star="${r.id}" aria-pressed="${saved.has(r.id)}">${saved.has(r.id)?T("saveOn"):T("saveOff")}</button>
+     <button class="act" type="button" data-cmp="${r.id}" aria-pressed="${cmp.has(r.id)}">${cmp.has(r.id)?T("cmpOn"):T("cmpOff")}</button>
+     <button class="act" type="button" data-ics="${r.id}">${T("ics")}</button>
+     <a class="act" href="${gcal(r)}" target="_blank" rel="noopener">${T("gcal")}</a>
+   </div></dl></details>`;
 }
-function f(l,v,c=""){return `<div class="f ${c}"><dt>${l}</dt><dd>${v}</dd></div>`}
 function render(){
   const res=filtered();
-  $("count").innerHTML=`<strong>${res.length}</strong> of ${DATA.length} scholarships · <strong>${res.filter(r=>r.fund==="Full").length}</strong> fully funded${saved.size?` · ★ ${saved.size} saved`:""}${onlyIds?` · showing a shared list <button class="act" type="button" id="clearShared">Show everything</button>`:""}`;
+  $("count").innerHTML=T("count",res.length,DATA.length,res.filter(r=>r.fund==="Full").length)+(saved.size?T("countSaved",saved.size):"")+(onlyIds?T("sharedOn")+` <button class="act" type="button" id="clearShared">${T("showAll")}</button>`:"");
   const cs=$("clearShared");if(cs)cs.onclick=()=>{onlyIds=null;$("tOpen").checked=true;reset()};
-  $("list").innerHTML=res.length?res.slice(0,shown).map(card).join(""):'<div class="empty">Nothing matches these filters. Try “All destinations”, untick “Only ones my GPA meets”, or clear the search.</div>';
-  $("more").hidden=res.length<=shown; $("more").textContent=`Show ${Math.min(30,res.length-shown)} more (${res.length-shown} left)`;
+  $("list").innerHTML=res.length?res.slice(0,shown).map(card).join(""):`<div class="empty">${T("empty")}</div>`;
+  $("more").hidden=res.length<=shown;$("more").textContent=T("more",Math.min(30,res.length-shown),res.length-shown);
 }
 function reset(){shown=30;render()}
-function setFac(v){fac=v||"";[...$("facChips").querySelectorAll(".chip")].forEach(c=>c.setAttribute("aria-pressed",c.dataset.f===fac));
+function setFac(v){fac=v||"";$("facChips").querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-pressed",c.dataset.f===fac));
   [...$("facGrid").children].forEach(c=>c.setAttribute("aria-pressed",c.dataset.f===fac&&fac!==""))}
-
-/* static pieces */
-$("mFac").insertAdjacentHTML("beforeend",FAC.map(([c,n])=>`<option value="${c}">${esc(n)}</option>`).join(""));
-$("facChips").insertAdjacentHTML("beforeend",`<button class="chip" type="button" data-f="" aria-pressed="true">All</button>`+FAC.map(([c,n])=>`<button class="chip" type="button" data-f="${c}" aria-pressed="false"><span class="sw" style="background:${hood(c)}"></span>${esc(n.split(/[,&]/)[0].trim())}</button>`).join(""));
-$("facChips").addEventListener("click",e=>{const b=e.target.closest(".chip");if(b){setFac(b.dataset.f);reset()}});
-$("tl").innerHTML=PATH.map(([s,e,w,h,t])=>{const S=new Date(s),E=new Date(e+"T23:59:59");const c=E<TODAY?"past":S<=TODAY?"now":"";
-  return `<div class="step ${c}">${c==="now"?'<span class="here">YOU ARE HERE</span>':""}<div class="w">${w}</div><h3>${h}</h3><p>${t}</p></div>`}).join("");
-$("tipGrid").innerHTML=TIPS.map(([h,t])=>`<div class="tip"><h3>${h}</h3><p>${t}</p></div>`).join("");
-
-/* events */
-["gpaIn","scale"].forEach(id=>$(id).addEventListener("input",()=>{readGPA();matcherCount();render()}));
-["mLevel","mFac","mFrom"].forEach(id=>$(id).addEventListener("change",matcherCount));
-["q"].forEach(id=>$(id).addEventListener("input",reset));
-["sort","fRegion","fLevel","fFrom","tMeet","tFull","tOpen","tSaved"].forEach(id=>$(id).addEventListener("change",reset));
-$("more").onclick=()=>{shown+=30;render()};
-$("list").addEventListener("click",e=>{
-  const c=e.target.closest("[data-cmp]");if(c){e.preventDefault();toggleCmp(+c.dataset.cmp);c.setAttribute("aria-pressed",cmp.has(+c.dataset.cmp));c.textContent=cmp.has(+c.dataset.cmp)?"✓ Comparing":"⇄ Compare";return}
-  const i=e.target.closest("[data-ics]");if(i){e.preventDefault();downloadICS([byId(+i.dataset.ics)]);return}
-  const b=e.target.closest("[data-star]");if(!b)return;e.preventDefault();
-  const id=+b.dataset.star;saved.has(id)?saved.delete(id):saved.add(id);store.set("sa-saved",[...saved]);
-  b.setAttribute("aria-pressed",saved.has(id));b.textContent=saved.has(id)?"★ On my shortlist":"☆ Add to shortlist";renderPlan();if($("tSaved").checked)render()});
 
 /* ---------- calendar ---------- */
 const byId=id=>DATA.find(r=>r.id===id);
@@ -608,14 +578,14 @@ function nextDL(r){const d=new Date(r.dl+"T12:00:00");if(d<TODAY)d.setFullYear(d
 const ymd=d=>d.getFullYear()+String(d.getMonth()+1).padStart(2,"0")+String(d.getDate()).padStart(2,"0");
 const icsEsc=s=>String(s).replace(/[\\;,]/g,m=>"\\"+m).replace(/\n/g,"\\n");
 function gcal(r){const d=nextDL(r),e=new Date(d);e.setDate(e.getDate()+1);
-  return "https://calendar.google.com/calendar/render?action=TEMPLATE&text="+encodeURIComponent("Deadline: "+r.name)+"&dates="+ymd(d)+"/"+ymd(e)+"&details="+encodeURIComponent("Approximate deadline. Confirm on the official site: "+r.url)}
+  return "https://calendar.google.com/calendar/render?action=TEMPLATE&text="+encodeURIComponent(T("icsTitle",r.name))+"&dates="+ymd(d)+"/"+ymd(e)+"&details="+encodeURIComponent(T("icsDesc",r.url))}
 function downloadICS(rows){
   rows=rows.filter(Boolean);if(!rows.length)return;
   const stamp=new Date().toISOString().replace(/[-:]/g,"").split(".")[0]+"Z";
   const ev=rows.map(r=>{const d=nextDL(r),e=new Date(d);e.setDate(e.getDate()+1);return ["BEGIN:VEVENT","UID:sa2027-"+r.id+"-"+ymd(d)+"@scholar-atlas","DTSTAMP:"+stamp,"DTSTART;VALUE=DATE:"+ymd(d),"DTEND;VALUE=DATE:"+ymd(e),
-    "SUMMARY:"+icsEsc("Deadline: "+r.name),"DESCRIPTION:"+icsEsc("Approximate deadline - confirm on the official site: "+r.url),"URL:"+r.url,
-    "BEGIN:VALARM","ACTION:DISPLAY","DESCRIPTION:"+icsEsc("2 weeks left: "+r.name),"TRIGGER:-P14D","END:VALARM",
-    "BEGIN:VALARM","ACTION:DISPLAY","DESCRIPTION:"+icsEsc("3 days left: "+r.name),"TRIGGER:-P3D","END:VALARM","END:VEVENT"].join("\r\n")}).join("\r\n");
+    "SUMMARY:"+icsEsc(T("icsTitle",r.name)),"DESCRIPTION:"+icsEsc(T("icsDesc",r.url)),"URL:"+r.url,
+    "BEGIN:VALARM","ACTION:DISPLAY","DESCRIPTION:"+icsEsc(T("ics14",r.name)),"TRIGGER:-P14D","END:VALARM",
+    "BEGIN:VALARM","ACTION:DISPLAY","DESCRIPTION:"+icsEsc(T("ics3",r.name)),"TRIGGER:-P3D","END:VALARM","END:VEVENT"].join("\r\n")}).join("\r\n");
   const txt=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Scholar Atlas 2027//EN","CALSCALE:GREGORIAN",ev,"END:VCALENDAR"].join("\r\n");
   const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([txt],{type:"text/calendar"}));
   a.download=rows.length===1?"deadline-"+rows[0].id+".ics":"my-scholarship-deadlines.ics";document.body.appendChild(a);a.click();
@@ -624,18 +594,18 @@ function downloadICS(rows){
 
 /* ---------- compare ---------- */
 const cmp=new Set();
-function toggleCmp(id){if(cmp.has(id))cmp.delete(id);else{if(cmp.size>=3){const first=[...cmp][0];cmp.delete(first)}cmp.add(id)}updateTray()}
-function updateTray(){$("tray").hidden=cmp.size===0;$("trayNames").textContent=`Comparing ${cmp.size}/3: `+[...cmp].map(id=>byId(id).name.split(/[–(]/)[0].trim()).join(" · ");
-  $("list").querySelectorAll("[data-cmp]").forEach(b=>{const on=cmp.has(+b.dataset.cmp);b.setAttribute("aria-pressed",on);b.textContent=on?"✓ Comparing":"⇄ Compare"})}
+function toggleCmp(id){if(cmp.has(id))cmp.delete(id);else{if(cmp.size>=3)cmp.delete([...cmp][0]);cmp.add(id)}updateTray()}
+function updateTray(){$("tray").hidden=cmp.size===0;$("trayNames").textContent=T("trayTxt",cmp.size)+[...cmp].map(id=>byId(id).name.split(/[–(]/)[0].trim()).join(" · ");
+  $("list").querySelectorAll("[data-cmp]").forEach(b=>{const on=cmp.has(+b.dataset.cmp);b.setAttribute("aria-pressed",on);b.textContent=on?T("cmpOn"):T("cmpOff")})}
 function renderCmp(){
   const rs=[...cmp].map(byId);if(!rs.length){$("cmpWrap").innerHTML="";return}
   const row=(l,fn)=>`<tr><th>${l}</th>${rs.map(r=>`<td>${fn(r)}</td>`).join("")}</tr>`;
-  $("cmpWrap").innerHTML=`<h3 style="font-family:var(--display);font-size:24px;margin:26px 0 0">Side-by-side comparison</h3><div class="cmp"><table><thead><tr><th></th>${rs.map(r=>`<td>${esc(r.name)}</td>`).join("")}</tr></thead><tbody>
-   ${row("Country",r=>esc(r.country))}${row("Levels",r=>r.lv.split("").map(x=>LV[x]).join(", "))}${row("Funding",r=>r.fund==="Full"?"Fully funded":r.fund)}
-   ${row("Covers",r=>esc(r.cov))}${row("GPA",r=>`${r.gpa.toFixed(2)} (${r.gb==="O"?"official":"typical"})${MYGPA!=null?(MYGPA>=r.gpa?" ✓":" ✗"):""}`)}
-   ${row("Deadline",r=>{const d=dlInfo(r);return esc(d.txt+" · "+d.sub)})}${row("Who can apply",r=>r.who.map(w=>esc(WHO[w])).join(", "))}
-   ${row("Language",r=>esc(r.lang))}${row("Faculties",r=>r.fields.includes("ALL")?"All faculties":r.fields.map(x=>esc(FACN[x])).join(", "))}
-   ${row("Website",r=>`<a href="${esc(r.url)}" target="_blank" rel="noopener">Official site</a>`)}</tbody></table></div>`;
+  $("cmpWrap").innerHTML=`<h3 style="font-family:var(--display);font-size:24px;margin:26px 0 0">${T("cmpTitle")}</h3><div class="cmp"><table><thead><tr><th></th>${rs.map(r=>`<td>${esc(r.name)}</td>`).join("")}</tr></thead><tbody>
+   ${row(T("cCountry"),r=>esc(ctryName(r.country)))}${row(T("cLevels"),r=>lvTxt(r))}${row(T("cFund"),fundTxt)}${row(T("cCov"),r=>esc(r.cov))}
+   ${row(T("cGpa"),r=>`${num(r.gpa)} (${r.gb==="O"?T("official"):T("typ")})${MYGPA!=null?(MYGPA>=r.gpa?" ✓":" ✗"):""}`)}
+   ${row(T("cDl"),r=>{const d=dlInfo(r);return esc(d.txt+" · "+d.sub)})}${row(T("cWho"),r=>r.who.map(w=>esc(whoName(w))).join(", "))}
+   ${row(T("cLang"),r=>esc(r.lang))}${row(T("cFac"),r=>r.fields.includes("ALL")?T("allFacs"):r.fields.map(x=>esc(facName(x))).join(", "))}
+   ${row(T("cWeb"),r=>`<a href="${esc(r.url)}" target="_blank" rel="noopener">${T("offSite")}</a>`)}</tbody></table></div>`;
 }
 $("trayGo").onclick=()=>{renderCmp();$("cmpWrap").scrollIntoView()};
 $("trayClear").onclick=()=>{cmp.clear();updateTray();renderCmp()};
@@ -643,124 +613,117 @@ $("trayClear").onclick=()=>{cmp.clear();updateTray();renderCmp()};
 /* ---------- my plan ---------- */
 const STATUSES=["Not started","Preparing","Submitted","Interview","Won","Rejected"];
 let status=store.get("sa-status",{});
+const DONE=["Submitted","Interview","Won","Rejected"];
 function renderPlan(){
-  const rs=[...saved].map(byId).filter(Boolean).sort((a,b)=>nextDL(a)-nextDL(b));
+  const rs=[...saved].map(byId).filter(Boolean).sort((a,b)=>nextDL(a)-nextDL(b)),stl=T("st");
   $("kSaved").textContent=rs.length;
-  const open=rs.filter(r=>!dlInfo(r).closed&&!["Submitted","Interview","Won","Rejected"].includes(status[r.id]));
+  const open=rs.filter(r=>!dlInfo(r).closed&&!DONE.includes(status[r.id]));
   $("kNext").textContent=open.length?Math.max(0,dlInfo(open[0]).days):"–";
-  $("kSub").textContent=rs.filter(r=>["Submitted","Interview","Won","Rejected"].includes(status[r.id])).length;
+  $("kSub").textContent=rs.filter(r=>DONE.includes(status[r.id])).length;
   $("kWon").textContent=rs.filter(r=>status[r.id]==="Won").length;
   $("planBody").innerHTML=rs.length?rs.map(r=>{const d=dlInfo(r),s=status[r.id]||"Not started";
-    return `<tr><td><b>${esc(r.name)}</b><div class="small">${esc(r.country)} · ${r.fund==="Full"?"Fully funded":r.fund}</div></td>
-      <td><span class="days ${d.cls}">${d.txt}</span><div class="small">${esc(d.sub)}</div></td><td>${r.gpa.toFixed(2)}</td>
-      <td><select data-status="${r.id}" class="st-${s.replace(" ","")}" aria-label="Status">${STATUSES.map(x=>`<option${x===s?" selected":""}>${x}</option>`).join("")}</select></td>
-      <td style="white-space:nowrap"><button class="act" type="button" data-ics="${r.id}">📅</button> <button class="act" type="button" data-unsave="${r.id}" aria-label="Remove">✕</button></td></tr>`}).join("")
-    :`<tr><td colspan="5" class="small" style="padding:18px">Your list is empty. Open any scholarship above and click ☆ Add to shortlist, then track it here.</td></tr>`;
+    return `<tr><td><b>${esc(r.name)}</b><div class="small">${esc(ctryName(r.country))} · ${fundTxt(r)}</div></td>
+      <td><span class="days ${d.cls}">${d.txt}</span><div class="small">${esc(d.sub)}</div></td><td>${num(r.gpa)}</td>
+      <td><select data-status="${r.id}" class="st-${s.replace(" ","")}" aria-label="${T("thSt")}">${STATUSES.map((x,i)=>`<option value="${x}"${x===s?" selected":""}>${stl[i]}</option>`).join("")}</select></td>
+      <td style="white-space:nowrap"><button class="act" type="button" data-ics="${r.id}" aria-label="${T("ics")}">📅</button> <button class="act" type="button" data-unsave="${r.id}" aria-label="${T("remove")}">✕</button></td></tr>`}).join("")
+    :`<tr><td colspan="5" class="small" style="padding:18px">${T("planEmpty")}</td></tr>`;
 }
-$("planBody").addEventListener("change",e=>{const s=e.target.closest("[data-status]");if(!s)return;status[s.dataset.status]=s.value;store.set("sa-status",status);s.className="st-"+s.value.replace(" ","");renderPlan()});
+$("planBody").addEventListener("change",e=>{const s=e.target.closest("[data-status]");if(!s)return;status[s.dataset.status]=s.value;store.set("sa-status",status);renderPlan()});
 $("planBody").addEventListener("click",e=>{const i=e.target.closest("[data-ics]");if(i){downloadICS([byId(+i.dataset.ics)]);return}
   const u=e.target.closest("[data-unsave]");if(u){saved.delete(+u.dataset.unsave);store.set("sa-saved",[...saved]);renderPlan();render()}});
-$("icsAll").onclick=()=>{const rs=[...saved].map(byId);if(!rs.length){$("shareMsg").textContent="Save some scholarships first.";return}downloadICS(rs)};
+$("icsAll").onclick=()=>{const rs=[...saved].map(byId);if(!rs.length){$("shareMsg").textContent=T("saveFirst");return}downloadICS(rs)};
 $("shareBtn").onclick=async()=>{
-  if(!saved.size){$("shareMsg").textContent="Save some scholarships first.";return}
+  if(!saved.size){$("shareMsg").textContent=T("saveFirst");return}
   const url=location.origin+location.pathname+"#shortlist="+[...saved].join(".");
-  try{await navigator.clipboard.writeText(url);$("shareMsg").textContent="Link copied. Paste it to a friend."}
-  catch(e){$("shareMsg").textContent=url}
+  try{await navigator.clipboard.writeText(url);$("shareMsg").textContent=T("copied")}catch(e){$("shareMsg").textContent=url}
 };
 
 /* ---------- shared lists ---------- */
-let onlyIds=null;
+let SHARED=null;
 function readShared(){
   const m=location.hash.match(/^#shortlist=([\d.]+)/);if(!m)return;
   const ids=m[1].split(".").map(Number).filter(id=>byId(id));if(!ids.length)return;
-  $("sharedBanner").hidden=false;$("sharedTxt").innerHTML=`A friend shared <b>${ids.length}</b> scholarship${ids.length>1?"s":""} with you.`;
+  SHARED=ids;$("sharedBanner").hidden=false;$("sharedTxt").innerHTML=T("sharedTxt",ids.length);
   $("sharedShow").onclick=()=>{onlyIds=new Set(ids);$("tOpen").checked=false;$("tMeet").checked=false;setFac("");$("q").value="";reset();$("browse").scrollIntoView()};
-  $("sharedAdd").onclick=()=>{ids.forEach(id=>saved.add(id));store.set("sa-saved",[...saved]);renderPlan();render();$("sharedAdd").textContent="Added ✓";$("plan").scrollIntoView()};
+  $("sharedAdd").onclick=()=>{ids.forEach(id=>saved.add(id));store.set("sa-saved",[...saved]);renderPlan();render();$("sharedAdd").textContent=T("added");$("plan").scrollIntoView()};
 }
 
 /* ---------- countries ---------- */
-const CTRY=[
- // name, region, tuition (public, intl, per year), living per month (approx USD), work while studying, post-study stay, psw months, language, note
- ["Australia","Oceania","AUD 30,000–50,000","1,900","48 hours per fortnight in term","Temporary Graduate visa: 2–3 years (varies by degree)",30,"English","Visa needs proof of ~AUD 29,700/yr for living costs."],
- ["Belgium","Europe","~EUR 1,000–12,000 (lower in Wallonia)","1,100","20 hours/week in term","Up to 12 months to look for work",12,"Dutch, French, English","Fees in Flanders are higher for non-EU students."],
- ["Canada","North America","CAD 20,000–45,000","1,500","24 hours/week off campus in term","Post-Graduation Work Permit up to 3 years (field rules apply)",36,"English, French","Québec has its own rules and some fee exemptions."],
- ["China","East Asia","CNY 20,000–40,000","700","Only with university and police approval","Limited; you need a job offer for a work visa",0,"Chinese, English","CSC scholarships cover most international students."],
- ["France","Europe","EUR 2,895 (bachelor) / 3,941 (master); many exemptions","1,100","964 hours per year","1-year temporary permit to look for work or start a business",12,"French, English","Public universities often reduce fees for international students."],
- ["Germany","Europe","Mostly free (semester fee ~EUR 150–400; some states charge)","1,150","140 full or 280 half days per year","18-month job-seeker permit",18,"German, English","Visa needs a blocked account of about EUR 11,900 per year."],
- ["Hong Kong","East Asia","HKD 145,000–200,000","1,400","Limited on-campus work","IANG visa: 2 years to stay and work",24,"English, Chinese","High living costs, especially housing."],
- ["Hungary","Europe","EUR 3,000–10,000","750","Up to 24 hours/week in term","Up to 9 months to look for work",9,"Hungarian, English","Stipendium Hungaricum covers many students."],
- ["Ireland","Europe","EUR 10,000–25,000","1,500","20 hours/week in term","Stamp 1G: 1–2 years",24,"English","Housing is expensive in Dublin."],
- ["Italy","Europe","EUR 1,000–4,000 (income-based)","950","20 hours/week","12-month permit to look for work",12,"Italian, English","Regional DSU grants can cover fees and housing."],
- ["Japan","East Asia","~JPY 536,000 at national universities (+ admission fee)","1,000","28 hours/week with permission","Job-hunting visa up to 1 year",12,"Japanese, English","MEXT covers tuition for scholars."],
- ["Netherlands","Europe","EUR 12,000–20,000+","1,300","16 hours/week (or full-time in summer)","Orientation year: 12 months",12,"Dutch, English","Most master's programmes are taught in English."],
- ["New Zealand","Oceania","NZD 25,000–45,000 (PhD: domestic fees)","1,400","20–25 hours/week in term","Post-study work visa: 1–3 years",36,"English","PhD students pay local fees, so a PhD is affordable."],
- ["Qatar","Middle East","Often fully covered by scholarships","1,300","Limited","You need a job offer",0,"Arabic, English","Tax-free salaries if you find work."],
- ["Saudi Arabia","Middle East","Free for scholarship holders","800","Limited","You need a job offer",0,"Arabic, English","Government scholarships include housing and a stipend."],
- ["Singapore","Southeast Asia","SGD 17,000–40,000 (tuition grant with a work bond)","1,400","16 hours/week in term","Long-Term Visit Pass: about 1 year",12,"English","The tuition grant requires working in Singapore for 3 years after."],
- ["South Korea","East Asia","KRW 5–12 million per year","900","20–25 hours/week (depends on Korean level)","D-10 job-seeking visa up to 2 years",24,"Korean, English","TOPIK level affects your work hours."],
- ["Spain","Europe","EUR 1,000–4,000 at public universities","1,000","30 hours/week","12 months to look for work",12,"Spanish, English","Low living costs outside Madrid and Barcelona."],
- ["Sweden","Europe","SEK 80,000–295,000","1,000","No fixed limit if studies go well","12 months to look for work",12,"Swedish, English","PhD positions are paid jobs."],
- ["Switzerland","Europe","CHF 1,000–4,000","2,100","15 hours/week in term","6 months to look for work",6,"German, French, Italian, English","Low tuition but very high living costs."],
- ["Türkiye","Middle East","~USD 300–3,000 at public universities","500","Needs a work permit","Residence permit possible; you need a job offer to work",0,"Turkish, English","Türkiye Bursları covers tuition, housing and a stipend."],
- ["UAE","Middle East","AED 40,000–100,000","1,500","Part-time on campus (with approval)","Top graduates can get long-term visas",12,"English, Arabic","Some universities give a full scholarship plus stipend."],
- ["UK","Europe","GBP 15,000–38,000","1,600","20 hours/week in term","Graduate Route: 18 months to 2 years (being shortened to 18 months)",18,"English","Most master's degrees take 1 year, which saves money."],
- ["USA","North America","USD 25,000–60,000 (PhDs usually funded)","1,800","20 hours/week on campus","OPT: 12 months (+24 months for STEM)",36,"English","Funded PhDs pay tuition and a stipend."],
-];
 function renderCountries(){
   const s=$("cSort").value;let list=[...CTRY];
-  if(s==="live")list.sort((a,b)=>+a[3].replace(/,/g,"")-+b[3].replace(/,/g,""));else if(s==="psw")list.sort((a,b)=>b[6]-a[6]);else list.sort((a,b)=>a[0].localeCompare(b[0]));
-  $("ctryGrid").innerHTML=list.map(c=>{const n=DATA.filter(r=>r.country===c[0]).length;
-    return `<div class="cc"><h3>${esc(c[0])}<small>~USD ${c[3]}/month</small></h3><dl>
-     <dt>Tuition</dt><dd>${esc(c[2])}</dd><dt>Work</dt><dd>${esc(c[4])}</dd><dt>After you graduate</dt><dd>${esc(c[5])}</dd><dt>Languages</dt><dd>${esc(c[7])}</dd></dl>
-     <div class="small">${esc(c[8])}</div>${n?`<button class="go" type="button" data-country="${esc(c[0])}">See ${n} scholarships in ${esc(c[0])} →</button>`:""}</div>`}).join("");
+  if(s==="live")list.sort((a,b)=>a[1]-b[1]);else if(s==="psw")list.sort((a,b)=>b[2]-a[2]);else list.sort((a,b)=>ctryName(a[0]).localeCompare(ctryName(b[0]),LOC[LANG]));
+  $("ctryGrid").innerHTML=list.map(c=>{const x=c[3][LANG]||c[3].en,n=DATA.filter(r=>r.country===c[0]).length;
+    return `<div class="cc"><h3>${esc(ctryName(c[0]))}<small>${T("perMonth",c[1].toLocaleString(LOC[LANG]))}</small></h3><dl>
+     <dt>${T("cTuition")}</dt><dd>${esc(x[0])}</dd><dt>${T("cWork")}</dt><dd>${esc(x[1])}</dd><dt>${T("cAfter")}</dt><dd>${esc(x[2])}</dd><dt>${T("cLangs")}</dt><dd>${esc(x[3])}</dd></dl>
+     <div class="small">${esc(x[4])}</div>${n?`<button class="go" type="button" data-country="${esc(c[0])}">${T("cSee",n,esc(ctryName(c[0])))}</button>`:""}</div>`}).join("");
 }
 $("cSort").addEventListener("change",renderCountries);
-$("ctryGrid").addEventListener("click",e=>{const b=e.target.closest("[data-country]");if(!b)return;$("q").value=b.dataset.country;setFac("");$("fRegion").value="";$("tMeet").checked=false;reset();$("browse").scrollIntoView()});
+$("ctryGrid").addEventListener("click",e=>{const b=e.target.closest("[data-country]");if(!b)return;$("q").value=b.dataset.country;setFac("");$("fRegion").value="";$("tMeet").checked=false;onlyIds=null;reset();$("browse").scrollIntoView()});
 
 /* ---------- letter builder ---------- */
 const EF=["e1","e2","e3","e4","e5","e6","e7","e8"];
 function buildLetter(){
   const v=Object.fromEntries(EF.map(k=>[k,($(k).value||"").trim()]));store.set("sa-essay",v);
-  const ph=(x,p)=>x||`[${p}]`;
-  ["e7","e8"].forEach(k=>{if(v[k])v[k]=v[k].replace(/^(I |to )/i,"").replace(/^./,c=>c.toLowerCase())});
-  const t=`Dear Selection Committee,
-
-${ph(v.e3,"Open with the real problem you saw")} That experience is why I chose my field, and it is why I am applying for the ${ph(v.e1,"programme and university")} with the support of the ${ph(v.e2,"scholarship name")}.
-
-During my studies I worked on ${ph(v.e4,"your strongest project or work experience")}. It taught me how to turn classroom knowledge into results that matter to real people, and it gave me practical skills in ${ph(v.e5,"two or three skills")}.
-
-I am applying to this programme because of ${ph(v.e6,"specific courses, professors or labs")}. These match exactly the gap I need to fill to work on the problem I described above.
-
-Outside the classroom, I ${ph(v.e8,"leadership or community work")}. This showed me that I can lead people and create change with limited resources.
-
-After graduating, my goal is to ${ph(v.e7,"your goal after the degree")}. This scholarship would let me focus fully on my studies and bring what I learn back to the people who need it most.
-
-Thank you for considering my application.
-
-Sincerely,
-[Your name]`;
-  $("eText").textContent=t;$("eWords").textContent=t.split(/\s+/).filter(Boolean).length+" words";
+  if(LANG==="en")["e7","e8"].forEach(k=>{if(v[k])v[k]=v[k].replace(/^(I |to )/i,"").replace(/^./,c=>c.toLowerCase())});
+  if(LANG==="fr")["e7","e8"].forEach(k=>{if(v[k])v[k]=v[k].replace(/^(j'ai |de )/i,"").replace(/^./,c=>c.toLowerCase())});
+  const PH={e1:"ph2",e2:"ph3",e3:"ph1",e4:"ph4",e5:"ph5",e6:"ph6",e7:"ph7",e8:"ph8"};
+  const vals=EF.map(k=>v[k]||`[${T(PH[k])}]`);
+  const t=T("letter",null,...vals);
+  $("eText").textContent=t;$("eWords").textContent=T("words",t.split(/\s+/).filter(Boolean).length);
 }
 EF.forEach(k=>$(k).addEventListener("input",buildLetter));
-$("eCopy").onclick=async()=>{try{await navigator.clipboard.writeText($("eText").textContent);$("eMsg").textContent="Copied."}catch(e){const r=document.createRange();r.selectNodeContents($("eText"));const s=getSelection();s.removeAllRanges();s.addRange(r);$("eMsg").textContent="Selected. Press Ctrl+C to copy."}};
-(()=>{const v=store.get("sa-essay",null);if(v)EF.forEach(k=>{if(v[k])$(k).value=v[k]});buildLetter()})();
-$("facGrid").addEventListener("click",e=>{const b=e.target.closest(".fac");if(!b)return;setFac(b.dataset.f);$("mFac").value=b.dataset.f;matcherCount();reset();$("browse").scrollIntoView()});
-$("soonGrid").addEventListener("click",e=>{const c=e.target.closest(".sc");if(!c)return;$("q").value=c.dataset.q;setFac("");$("tMeet").checked=false;$("fRegion").value="";reset();$("browse").scrollIntoView()});
+$("eCopy").onclick=async()=>{try{await navigator.clipboard.writeText($("eText").textContent);$("eMsg").textContent=T("eCopied")}catch(e){const r=document.createRange();r.selectNodeContents($("eText"));const s=getSelection();s.removeAllRanges();s.addRange(r);$("eMsg").textContent=T("eSelected")}};
 
-/* restore */
+/* ---------- language-dependent pieces ---------- */
+function renderStaticLists(){
+  document.querySelectorAll(".facOpt").forEach(o=>o.textContent=facName(o.dataset.f));
+  $("facChips").innerHTML=`<span class="lab">${T("facLabel")}</span><button class="chip" type="button" data-f="" aria-pressed="${fac===""}">${T("all")}</button>`+FACS.map(c=>`<button class="chip" type="button" data-f="${c}" aria-pressed="${fac===c}"><span class="sw" style="background:${hood(c)}"></span>${esc(facShort(c))}</button>`).join("");
+  $("tl").innerHTML=T("path").map(([w,h,t],i)=>{const S=new Date(PATHD[i][0]),E=new Date(PATHD[i][1]+"T23:59:59"),c=E<TODAY?"past":S<=TODAY?"now":"";
+    return `<div class="step ${c}">${c==="now"?`<span class="here">${T("here")}</span>`:""}<div class="w">${esc(w)}</div><h3>${esc(h)}</h3><p>${esc(t)}</p></div>`}).join("");
+  $("tipGrid").innerHTML=T("tips").map(([h,t])=>`<div class="tip"><h3>${esc(h)}</h3><p>${esc(t)}</p></div>`).join("");
+  if(DATA.length){
+    const cur=$("fRegion").value;
+    $("fRegion").innerHTML=`<option value="">${T("allDest")}</option>`+[...new Set(DATA.map(r=>r.region))].sort().map(x=>`<option value="${esc(x)}"${x===cur?" selected":""}>${esc(regName(x))}</option>`).join("");
+    $("facGrid").innerHTML=FACS.map(c=>{const k=DATA.filter(r=>hasFac(r,c)).length,spec=DATA.filter(r=>r.fields.includes(c)).length;
+      return `<button class="fac" type="button" data-f="${c}" aria-pressed="${fac===c}"><span class="top"><span class="hood" style="background:${hood(c)};${c==="HUM"?"outline:1px solid var(--line)":""}"></span><span class="n">${k}</span></span><h3>${esc(facName(c))}</h3><small>${T("facSpec",spec)}</small></button>`}).join("");
+    const soon=DATA.map(r=>({r,i:dlInfo(r)})).filter(x=>!x.i.closed).sort((a,b)=>a.i.days-b.i.days).slice(0,8);
+    $("soonGrid").innerHTML=soon.map(({r,i})=>`<div class="sc" role="button" tabindex="0" data-q="${esc(r.name.split(/[–(]/)[0].trim())}"><span class="days ${i.cls}">${i.txt}</span><h3>${esc(r.name)}</h3><span class="c">${esc(ctryName(r.country))} · ${fundTxt(r)} · ${T("dGpa")} ${num(r.gpa)}</span></div>`).join("");
+  }
+}
+function setLang(l){
+  LANG=I18N[l]?l:"en";store.set("sa-lang",LANG);
+  applyStatic();readGPA();renderStaticLists();buildLetter();
+  if(DATA.length){matcherCount();render();renderPlan();renderCountries();updateTray();renderCmp();if(SHARED)$("sharedTxt").innerHTML=T("sharedTxt",SHARED.length)}
+}
+
+/* ---------- events ---------- */
+document.querySelectorAll(".langs button").forEach(b=>b.addEventListener("click",()=>setLang(b.dataset.lang)));
+["gpaIn","scale"].forEach(id=>$(id).addEventListener("input",()=>{readGPA();matcherCount();render()}));
+["mLevel","mFac","mFrom"].forEach(id=>$(id).addEventListener("change",matcherCount));
+$("q").addEventListener("input",()=>{onlyIds=null;reset()});
+["sort","fRegion","fLevel","fFrom","tMeet","tFull","tOpen","tSaved"].forEach(id=>$(id).addEventListener("change",reset));
+$("more").onclick=()=>{shown+=30;render()};
+$("facChips").addEventListener("click",e=>{const b=e.target.closest(".chip");if(b){setFac(b.dataset.f);onlyIds=null;reset()}});
+$("list").addEventListener("click",e=>{
+  const c=e.target.closest("[data-cmp]");if(c){e.preventDefault();toggleCmp(+c.dataset.cmp);return}
+  const i=e.target.closest("[data-ics]");if(i){e.preventDefault();downloadICS([byId(+i.dataset.ics)]);return}
+  const b=e.target.closest("[data-star]");if(!b)return;e.preventDefault();
+  const id=+b.dataset.star;saved.has(id)?saved.delete(id):saved.add(id);store.set("sa-saved",[...saved]);
+  b.setAttribute("aria-pressed",saved.has(id));b.textContent=saved.has(id)?T("saveOn"):T("saveOff");renderPlan();if($("tSaved").checked)render()});
+$("facGrid").addEventListener("click",e=>{const b=e.target.closest(".fac");if(!b)return;setFac(b.dataset.f);$("mFac").value=b.dataset.f;onlyIds=null;matcherCount();reset();$("browse").scrollIntoView()});
+function soonGo(e){const c=e.target.closest(".sc");if(!c)return;$("q").value=c.dataset.q;setFac("");$("tMeet").checked=false;$("fRegion").value="";onlyIds=null;reset();$("browse").scrollIntoView()}
+$("soonGrid").addEventListener("click",soonGo);
+$("soonGrid").addEventListener("keydown",e=>{if(e.key==="Enter")soonGo(e)});
+
+/* ---------- start ---------- */
 const g=store.get("sa-gpa",null);if(g){$("gpaIn").value=g.v;$("scale").value=g.s}
 const mm=store.get("sa-match",null);if(mm){$("mLevel").value=mm.l;$("mFac").value=mm.f;$("mFrom").value=mm.from}
-readGPA();
+const ev=store.get("sa-essay",null);if(ev)EF.forEach(k=>{if(ev[k])$(k).value=ev[k]});
+setLang(LANG);
 
 fetch("scholarships.json").then(r=>r.json()).then(d=>{
   DATA=d;
   $("fTotal").textContent=d.length;$("fFull").textContent=d.filter(r=>r.fund==="Full").length;$("fOpen").textContent=d.filter(r=>!dlInfo(r).closed).length;
-  $("fRegion").insertAdjacentHTML("beforeend",[...new Set(d.map(r=>r.region))].sort().map(x=>`<option>${esc(x)}</option>`).join(""));
-  $("facGrid").innerHTML=FAC.map(([c,n])=>{const k=d.filter(r=>hasFac(r,c));const spec=d.filter(r=>r.fields.includes(c)).length;
-    return `<button class="fac" type="button" data-f="${c}" aria-pressed="false"><span class="top"><span class="hood" style="background:${hood(c)};${c==="HUM"?"outline:1px solid var(--line)":""}"></span><span class="n">${k.length}</span></span><h3>${esc(n)}</h3><small>${spec} specific to this field</small></button>`}).join("");
-  const soon=d.map(r=>({r,i:dlInfo(r)})).filter(x=>!x.i.closed).sort((a,b)=>a.i.days-b.i.days).slice(0,8);
-  $("soonGrid").innerHTML=soon.map(({r,i})=>`<div class="sc" role="button" tabindex="0" data-q="${esc(r.name.split(/[–(]/)[0].trim())}"><span class="days ${i.cls}">${i.txt}</span><h3>${esc(r.name)}</h3><span class="c">${esc(r.country)} · ${r.fund==="Full"?"Fully funded":"Partial"} · GPA ${r.gpa.toFixed(1)}</span></div>`).join("");
-  if(mm&&mm.f)setFac("");
-  matcherCount();render();renderPlan();renderCountries();readShared();
-}).catch(()=>{$("count").textContent="Could not load the scholarship list. Reload the page to try again."});
+  renderStaticLists();matcherCount();render();renderPlan();renderCountries();readShared();
+}).catch(()=>{$("count").textContent=T("loadErr")});
 </script>
